@@ -64,6 +64,7 @@
 #include <display/implementation/ogre/positioned.h>
 #include <display/test/performance/test_effect.h>
 #include <model/laser.h>
+#include <model/plays.h>
 
 
 namespace ProjetUnivers
@@ -96,9 +97,10 @@ namespace ProjetUnivers
           observer->addTrait(new Model::Observer()) ;
           observer->getTrait<Model::Observer>()->setFieldOfView(::Ogre::Degree(70)) ;
           observer->addTrait(new Model::Player()) ;
-          observer->addTrait(new Model::Active()) ;
           observer->addTrait(new Model::Positioned()) ;
           observer->addTrait(new Model::Oriented()) ;
+          observer->addTrait(new Model::Active()) ;
+          Kernel::Link<Model::Plays>(observer,observer) ;
 
           return observer ;
         }

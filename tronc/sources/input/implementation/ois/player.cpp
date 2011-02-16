@@ -32,7 +32,7 @@ namespace ProjetUnivers
       namespace OIS
       {
         
-        RegisterControler(Player,Model::Player,InputControlerSet) ;
+        RegisterControler(Player,Model::WithPlayer,InputControlerSet) ;
         
         void Player::onInit()
         {
@@ -42,7 +42,12 @@ namespace ProjetUnivers
         void Player::simulate(const float& seconds)
         {
           InternalMessage("Input","Player::simulate entering") ;
-          Kernel::Object* object = getTrait()->getConfiguration() ;
+
+          Kernel::TraitReference<Model::Player> player = getTrait()->getPlayer() ;
+          InternalMessage("Input","Player::simulate #1") ;
+          Kernel::Object* object = player->getConfiguration() ;
+          InternalMessage("Input","Player::simulate #2") ;
+
           if (object)
           {
             Model::PlayerConfiguration* configuration = object->getTrait<Model::PlayerConfiguration>() ;

@@ -24,10 +24,14 @@
 #include <display/display_input.h>
 #include <input/implementation/ois/keyboard.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
       
         Keyboard::Keyboard()
         {} 

@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <model/active.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     Active::Active()
     {}

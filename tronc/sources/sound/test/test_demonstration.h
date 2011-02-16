@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,8 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <sound/test/sound_test_fixture.h>
+
 
 namespace ProjetUnivers
 {
@@ -30,7 +31,7 @@ namespace ProjetUnivers
     {
 
       /// Test of a complete system
-      class TestDemonstration : public CppUnit::TestFixture
+      class TestDemonstration : public SoundTestFixture
       {
       protected:
       /*!
@@ -57,10 +58,6 @@ namespace ProjetUnivers
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}
-
-      private:
-
-        Kernel::Object* createObserver(Kernel::Object* parent) const ;
       };
 
     }

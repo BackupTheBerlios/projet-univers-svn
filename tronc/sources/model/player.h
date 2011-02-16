@@ -31,7 +31,7 @@ namespace ProjetUnivers
   
     /// Indicate that the object is a player.
     /*!
-    Current player is Player^Activated
+    Current player is Player^Active
     */
     class Player : public Kernel::Trait
     {
@@ -43,6 +43,9 @@ namespace ProjetUnivers
       /// Relate a player to its configuration.
       static void connect(Kernel::Object* player,Kernel::Object* configuration) ;
       
+      /// Set player's name.
+      void setName(const std::string&) ;
+
       /// Access to configuration.
       Kernel::Object* getConfiguration() const ;
 
@@ -54,7 +57,8 @@ namespace ProjetUnivers
       /// Player configuration.
       Kernel::ObjectReference m_configuration ;
       
-      std::string m_player_name ;
+      /// Player's name
+      std::string m_name ;
     };
         
   }

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_KEYBOARD_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_KEYBOARD_H_
+#pragma once
 
 #include <list>
 #include <map>
@@ -27,10 +26,14 @@
 #include <kernel/object.h>
 #include <input/implementation/input_object.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
 
         /// Keyboard event handler.
         class Keyboard : public ::OIS::KeyListener, public InputObject
@@ -62,7 +65,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_KEYBOARD_H_*/

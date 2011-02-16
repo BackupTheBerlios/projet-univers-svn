@@ -23,6 +23,9 @@
 #include <model/mobile.h>
 #include <model/oriented.h>
 #include <model/positioned.h>
+#include <model/plays.h>
+#include <model/player.h>
+#include <model/active.h>
 
 #include <sound/implementation/listener.h>
 
@@ -41,7 +44,10 @@ namespace ProjetUnivers
                           And(Or(HasParent(HasTrait(Model::Mobile)),
                                  Not(HasParent(HasTrait(Model::Mobile)))),
                               HasTrait(Model::RecursivelyPositioned),
-                              HasTrait(Model::Listener))) ;
+                              IsRelated(Kernel::Inverse<Model::Plays>,
+                                        And(HasTrait(Model::Player),
+                                            HasTrait(Model::Listener),
+                                            HasTrait(Model::Active))))) ;
 
     }
   } 

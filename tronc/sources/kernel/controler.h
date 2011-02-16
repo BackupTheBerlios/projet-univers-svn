@@ -21,6 +21,7 @@
 #pragma once
 
 #include <kernel/base_controler.h>
+#include <kernel/trait_reference.h>
 
 namespace ProjetUnivers
 {
@@ -44,7 +45,7 @@ namespace ProjetUnivers
       _Trait* getTrait() const ;
 
       /// Access to trait of type T if exists.
-      template <class T> T* getTrait() const ;
+      template <class T> TraitReference<T> getTrait() const ;
 
       /// Abstract class means virtual destructor.
       virtual ~Controler() ;

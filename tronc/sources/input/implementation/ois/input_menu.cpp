@@ -28,10 +28,14 @@
 #include <input/implementation/ois/ois.h>
 #include <input/implementation/ois/input_menu.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
 
         CEGUI::MouseButton convertOgreButtonToCegui(const int& buttonID)
         {

@@ -18,15 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_INPUT_MENU_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_INPUT_MENU_H_
+#pragma once
 
 #include <kernel/percentage.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
       
         /// Common Menu input control.
         class InputMenu
@@ -51,6 +54,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_INPUT_MENU_H_*/

@@ -24,6 +24,7 @@
 #include <kernel/parameters.h>
 #include <kernel/string.h>
 #include <kernel/log.h>
+#include <kernel/implementation/debugger.h>
 
 namespace ProjetUnivers
 {
@@ -43,6 +44,8 @@ namespace ProjetUnivers
 #  define write(fd, buf, n) _write((fd), (buf), static_cast<unsigned>(n))
 #else
 #  include <unistd.h>
+
+using ProjetUnivers::Kernel::Implementation::Debugger;
 #endif
 
       /// Specialized log node
@@ -118,6 +121,12 @@ namespace ProjetUnivers
             ++log)
         {
           debugLog->subscribeTo(rlog::GetGlobalChannel(log->c_str()));
+        }
+
+        // debugger activation
+        if (Parameters::getValue<bool>("Kernel","debug",false))
+        {
+          Debugger::getDebugger().activate() ;
         }
 
       #endif

@@ -141,7 +141,7 @@ libkernel_la_SOURCES = \
 
 
 
-libkernel_la_LDFLAGS = -no-undefined
+libkernel_la_LDFLAGS = $(COVERAGE_LDFLAGS) -no-undefined
 libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LIBS)
 
 # tests
@@ -195,7 +195,7 @@ test_inherits.o : ../test/test_inherits.cpp
 
 
 test_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
-test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
+test_kernel_LDFLAGS = $(COVERAGE_LDFLAGS) $(CPPUNIT_LIBS) 
 test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 test_kernel_automatic_registration_SOURCES = \
@@ -203,7 +203,7 @@ test_kernel_automatic_registration_SOURCES = \
 ../test/test_kernel_automatic_registration.cpp
 
 test_kernel_automatic_registration_CXXFLAGS = $(PU_CXXFLAGS) 
-test_kernel_automatic_registration_LDFLAGS = $(CPPUNIT_LIBS) 
+test_kernel_automatic_registration_LDFLAGS = $(COVERAGE_LDFLAGS) $(CPPUNIT_LIBS) 
 test_kernel_automatic_registration_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 test_performance_kernel_SOURCES = \
@@ -213,8 +213,12 @@ test_performance_kernel_SOURCES = \
 ../test/performance/test_performance_kernel.cpp
 
 test_performance_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
-test_performance_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
+test_performance_kernel_LDFLAGS = $(COVERAGE_LDFLAGS) $(CPPUNIT_LIBS) 
 test_performance_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
+clean-local: gcov-clean
+
+gcov-clean:
+	find $(SOURCES)/kernel -name "*.gcda" -o -name "*.gcov" -o -name "*.gcno" | xargs -r rm
 
 

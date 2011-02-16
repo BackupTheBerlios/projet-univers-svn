@@ -18,26 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MODEL_INTERNAL_H_
-#define PU_MODEL_MODEL_INTERNAL_H_
+#pragma once
 
 #include <string>
 #include <kernel/object.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
-    /// Load a mission. 
-    /*!
-      @param mission object under which mission content will be loaded
-      @param player_configuration object representing player configuration
-      
-    */
-    void loadMission(const std::string& name,
-                     Kernel::Object* mission,
-                     Kernel::Object* player_configuration, 
-                     Kernel::Object* main_menu) ;
     
   }
 }
-#endif

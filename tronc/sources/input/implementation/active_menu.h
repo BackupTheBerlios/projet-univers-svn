@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_ACTIVE_MENU_H_
-#define PU_INPUT_IMPLEMENTATION_ACTIVE_MENU_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
           
       /// An activated menu.
       class ActiveMenu : public Kernel::DeducedTrait
@@ -33,4 +35,3 @@ namespace ProjetUnivers {
     }
   }
 }
-#endif /*PU_INPUT_IMPLEMENTATION_ACTIVE_MENU_H_*/

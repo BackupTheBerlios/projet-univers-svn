@@ -27,7 +27,8 @@ namespace ProjetUnivers
     
     ExceptionKernel::ExceptionKernel(const std::string& message)
     : Exception(message,1)
-    {} 
+    {}
+
    
     ExceptionKernel::ExceptionKernel(const ExceptionKernel& x)
     : Exception(x)

@@ -41,7 +41,6 @@ namespace ProjetUnivers
     
     void Mission::load()
     {
-      Model::loadMission(m_name,getObject(),m_player_configuration,m_main_menu) ;
     }
     
     Kernel::Object* Mission::getSystem() const

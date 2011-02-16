@@ -45,6 +45,8 @@
 #include <model/implementation/activated_mission.h>
 #include <model/implementation/logic/activated_mission.h>
 #include <model/implementation/logic/flying_group.h>
+#include <model/plays_in.h>
+#include <model/plays.h>
 
 namespace ProjetUnivers
 {
@@ -88,21 +90,19 @@ namespace ProjetUnivers
           return Position(enemy_area.getCenter()+delta) ;
         }
 
-        void createPlayerPilot(Kernel::Object* ship,Kernel::Object* pilot,Mission* mission)
+        void createPlayerPilot(Kernel::Object* ship,Kernel::Object* pilot,Kernel::Object* player)
         {
           pilot->addTrait(new Positioned()) ;
           pilot->addTrait(new Oriented()) ;
-          pilot->addTrait(new Player()) ;
-          pilot->addTrait(new Observer()) ;
-          pilot->addTrait(new Listener()) ;
-          pilot->addTrait(new Active()) ;
 
-          ship->addTrait(new HeadUpDisplay()) ;
-          HeadUpDisplay::connect(ship,ship) ;
+          Kernel::Link<Plays>(player,pilot) ;
 
-          Player::connect(pilot,mission->getPlayerConfiguration()) ;
           pilot->addTrait(new State()) ;
           pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
+
+          // fixme idem : head up displayed is the one of the local player ?
+          ship->addTrait(new HeadUpDisplay()) ;
+          HeadUpDisplay::connect(ship,ship) ;
         }
 
         void FlyingGroup::spawn()
@@ -117,6 +117,9 @@ namespace ProjetUnivers
           Kernel::Object* system = mission->getSystem() ;
 
           Model::FlyingGroup* group = getTrait<Model::FlyingGroup>() ;
+
+          // sometimes the player plays in the group
+          Kernel::Object* player = getObject()->getUniqueLinked<Kernel::Inverse<PlaysIn> >() ;
 
           for(unsigned int i = 1 ; i <= group->getInitialNumberOfShips() ; ++i)
           {
@@ -148,9 +151,9 @@ namespace ProjetUnivers
             // create the pilot
             Kernel::Object* pilot = ship->createObject() ;
 
-            if (i == 1 && group->hasPlayer())
+            if (i == 1 && player)
             {
-              createPlayerPilot(ship,pilot,mission) ;
+              createPlayerPilot(ship,pilot,player) ;
             }
             else
             {
@@ -198,7 +201,8 @@ namespace ProjetUnivers
         void FlyingGroup::respawnPlayer()
         {
           Model::FlyingGroup* group = getTrait<Model::FlyingGroup>() ;
-          Mission* mission = getObject()->getParent<Mission>() ;
+
+          Kernel::Object* player = getObject()->getUniqueLinked<Kernel::Inverse<PlaysIn> >() ;
 
           Kernel::Object* ship = group->getAIShip() ;
           if (ship)
@@ -207,7 +211,7 @@ namespace ProjetUnivers
 
             Kernel::Object* pilot = (*ais.begin())->getObject() ;
             pilot->destroyTrait(pilot->getTrait<AutonomousCharacter>()) ;
-            createPlayerPilot(ship,pilot,mission) ;
+            createPlayerPilot(ship,pilot,player) ;
           }
         }
 

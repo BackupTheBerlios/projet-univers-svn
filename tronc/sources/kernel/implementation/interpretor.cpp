@@ -69,7 +69,7 @@ namespace ProjetUnivers
 
       void Interpretor::destroyObjects()
       {
-        for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
+        for(std::set<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
         {
           if (*object)
           {
@@ -194,16 +194,21 @@ namespace ProjetUnivers
       void Interpretor::addObjectToDestroy(Object* object)
       {
         if (! m_destroying)
-          m_objects_to_destroy.push_back(object) ;
+          m_objects_to_destroy.insert(object) ;
       }
       void Interpretor::recordRelationToDestroy(const Relation& relation)
       {
         m_relation_to_destroy.insert(relation) ;
       }
 
-      bool Interpretor::isToDestroy(const Relation& relation) const
+      bool Interpretor::isToBeDestroyed(const Relation& relation) const
       {
         return m_relation_to_destroy.find(relation) != m_relation_to_destroy.end() ;
+      }
+
+      bool Interpretor::isToBeDestroyed(Object* object) const
+      {
+        return m_objects_to_destroy.find(object) != m_objects_to_destroy.end() ;
       }
 
       void Interpretor::unRecordRelationToDestroy(const Relation& relation)

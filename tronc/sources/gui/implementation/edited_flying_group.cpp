@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,6 +20,8 @@
  ***************************************************************************/
 #include <model/flying_group.h>
 #include <model/edited.h>
+#include <model/plays_in.h>
+#include <model/player.h>
 #include <gui/implementation/edited_team.h>
 #include <gui/implementation/edited_flying_group.h>
 
@@ -32,7 +34,9 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(EditedFlyingGroup,
                           And(HasTrait(Model::FlyingGroup),
-                              HasParent(HasTrait(EditedTeam)))) ;
+                              HasParent(HasTrait(EditedTeam)),
+                              Or(IsRelated(Kernel::Inverse<Model::PlaysIn>,HasTrait(Model::Player)),
+                                 Not(IsRelated(Kernel::Inverse<Model::PlaysIn>,HasTrait(Model::Player)))))) ;
     }
   }
 }

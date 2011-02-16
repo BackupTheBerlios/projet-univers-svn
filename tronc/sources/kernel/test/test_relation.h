@@ -61,6 +61,8 @@ namespace ProjetUnivers
         void deducedRelationOnAllRelation() ;
         void isPrimitive() ;
         void getPrincipalRelation() ;
+        void linkingToADestroyingObjectRemoveLink() ;
+        void destroyObjectDestroyAllChildLinks() ;
 
       // @}
 
@@ -87,6 +89,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(deducedRelationOnAllRelation) ;
         CPPUNIT_TEST(isPrimitive) ;
 //        CPPUNIT_TEST(getPrincipalRelation) ;
+        CPPUNIT_TEST(linkingToADestroyingObjectRemoveLink) ;
+        CPPUNIT_TEST(destroyObjectDestroyAllChildLinks) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

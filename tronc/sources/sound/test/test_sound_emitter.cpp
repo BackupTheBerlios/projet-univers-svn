@@ -71,11 +71,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!engine_view->getSource()) ;
 
-        Kernel::Object* listener = ship->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile()) ;
+        Kernel::Object* listener = createObserver(ship) ;
 
         // now active
         CPPUNIT_ASSERT(engine_view->isActive()) ;
@@ -121,11 +117,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!engine_view->getSource()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile()) ;
+        Kernel::Object* listener = createObserver(system) ;
 
         // still inactive
         CPPUNIT_ASSERT(!engine_view->isActive()) ;
@@ -163,11 +155,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile()) ;
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getChild<Model::Throttle>()->set(100) ;

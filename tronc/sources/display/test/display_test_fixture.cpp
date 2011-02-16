@@ -37,6 +37,7 @@
 #include <display/implementation/ogre/ogre.h>
 #include <display/display.h>
 #include <display/test/display_test_fixture.h>
+#include <model/plays.h>
 
 namespace ProjetUnivers
 {
@@ -67,6 +68,7 @@ namespace ProjetUnivers
         observer->addTrait(new Model::Active()) ;
         observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
+        Kernel::Link<Model::Plays>(observer,observer) ;
 
         return observer ;
       }

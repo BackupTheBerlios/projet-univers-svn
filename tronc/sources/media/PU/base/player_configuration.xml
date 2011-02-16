@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model>
- <object id="1">
+ <object id="4">
   <PlayerConfiguration>
    <Mapping command="Fire">
     <JoystickButton number="0"/>

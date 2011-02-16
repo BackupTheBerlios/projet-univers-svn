@@ -46,6 +46,7 @@
 #include <model/active.h>
 #include <model/solid.h>
 #include <model/universe.h>
+#include <model/plays.h>
 
 using namespace ProjetUnivers ;
 
@@ -133,6 +134,7 @@ int main(int argc,char** argv)
   observer->addTrait(new CameraOrientation()) ;
   observer->addTrait(new Model::State()) ;
   observer->addTrait(new Kernel::CommandDelegator()) ;
+  Kernel::Link<Model::Plays>(observer,observer) ;
 
   observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
   observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;

@@ -70,6 +70,7 @@ physical_world.reflect.cpp \
 played.reflect.cpp \
 player_configuration.reflect.cpp \
 player.reflect.cpp \
+plays.reflect.cpp \
 positioned.reflect.cpp \
 position.reflect.cpp \
 selection.reflect.cpp \
@@ -176,6 +177,7 @@ $(REFLEX_DICTIONARY) \
 ../implementation/with_flying_group.cpp \
 ../implementation/with_lifetime.cpp \
 ../implementation/with_objectives.cpp \
+../implementation/with_player.cpp \
 ../implementation/whole.cpp \
 ../implementation/logic/activated_mission.cpp \
 ../implementation/logic/collision.cpp \

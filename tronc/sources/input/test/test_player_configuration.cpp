@@ -29,15 +29,21 @@
 #include <input/implementation/ois/ois.h>
 #include <input/test/test_player_configuration.h>
 #include <input/input_gui.h>
+#include <model/active.h>
+#include <model/plays.h>
+#include <model/with_player.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Input::
                                 Test::
                                 TestPlayerConfiguration) ;
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Test
+    {
       
       namespace
       {
@@ -75,8 +81,12 @@ namespace ProjetUnivers {
 
         Kernel::Object* player = model->createObject() ;
         player->addTrait(new Model::Player()) ;
+        player->addTrait(new Model::Active()) ;
+        Kernel::Link<Model::Plays>(player,player) ;
+        CPPUNIT_ASSERT(player->getTrait<Model::WithPlayer>()) ;
         player->addTrait(new T1()) ;
         Model::Player::connect(player,configuration) ;
+
 
         // inject correct key
         Implementation::OIS::getKeyboard()->keyPressed(::OIS::KeyEvent(NULL,OIS::KC_RETURN,0)) ;

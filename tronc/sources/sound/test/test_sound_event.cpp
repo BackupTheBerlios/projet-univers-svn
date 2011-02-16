@@ -74,11 +74,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(200))) ;
@@ -108,11 +104,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(100))) ;
@@ -144,11 +136,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(200))) ;
@@ -183,11 +171,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Shot()) ;

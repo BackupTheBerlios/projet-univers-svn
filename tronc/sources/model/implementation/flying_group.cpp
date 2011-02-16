@@ -22,6 +22,8 @@
 #include <model/autonomous_character.h>
 #include <model/flying_group.h>
 #include <model/model.h>
+#include <model/plays_in.h>
+#include <model/active.h>
 
 namespace ProjetUnivers
 {
@@ -63,12 +65,6 @@ namespace ProjetUnivers
       notify() ;
     }
 
-    void FlyingGroup::setHasPlayer(const bool& has_player)
-    {
-      m_has_player = has_player ;
-      notify() ;
-    }
-
     void FlyingGroup::removeShip(Kernel::Object* ship)
     {
       m_ships.erase(ship) ;
@@ -97,9 +93,17 @@ namespace ProjetUnivers
       return m_initial_number_of_ships ;
     }
 
-    const bool& FlyingGroup::hasPlayer() const
+    bool FlyingGroup::hasPlayer() const
     {
-      return m_has_player ;
+      // @todo : this kind of query exist(IsRelated(Inverse(PlaysIn),HasTrait(Active))) could be
+      // managed by kernel ?
+      std::set<Kernel::Object*> players(Kernel::Relation::getLinked<Kernel::Inverse<PlaysIn> >(getObject())) ;
+      for (std::set<Kernel::Object*>::iterator player = players.begin() ; player != players.end() ; ++player)
+      {
+        if ((*player)->getTrait<Active>())
+          return true ;
+      }
+      return false ;
     }
 
     const Objective& FlyingGroup::getObjective() const

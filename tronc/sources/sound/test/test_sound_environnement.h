@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <sound/test/sound_test_fixture.h>
 
 namespace ProjetUnivers
 {
@@ -30,7 +30,8 @@ namespace ProjetUnivers
     {
             
       /// Test of environmental effect on a source
-      class TestSoundEnvironnement : public CppUnit::TestFixture {
+      class TestSoundEnvironnement : public SoundTestFixture
+      {
       protected:
       /*!
       @name Tests

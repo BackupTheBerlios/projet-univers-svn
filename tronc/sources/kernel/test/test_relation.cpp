@@ -126,6 +126,41 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
+      void TestRelation::linkingToADestroyingObjectRemoveLink()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        model->startTransaction() ;
+
+        o2->destroyObject() ;
+        Link<Selection>(o1,o2) ;
+
+        model->endTransaction() ;
+
+        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        CPPUNIT_ASSERT(related.size() == 0) ;
+      }
+
+      void TestRelation::destroyObjectDestroyAllChildLinks()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+        Object* child = o2->createObject() ;
+
+        model->startTransaction() ;
+
+        Link<Selection>(o1,child) ;
+        o2->destroyObject() ;
+
+        model->endTransaction() ;
+
+        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        CPPUNIT_ASSERT(related.size() == 0) ;
+      }
+
       void TestRelation::getInverseRelation()
       {
         std::auto_ptr<Model> model(new Model()) ;

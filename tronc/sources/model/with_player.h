@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,55 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-namespace ProjetUnivers 
+#pragma once
+
+#include <kernel/deduced_trait.h>
+
+#include <model/player.h>
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Model
   {
-   
-    template<class _Trait,class _ControlerSet> 
-    _Trait* Controler<_Trait,_ControlerSet>::getTrait() const
+    /// For objects that are played by the local player.
+    class WithPlayer : public Kernel::DeducedTrait
     {
-      _Trait* result = dynamic_cast<_Trait*>(m_trait) ;
-      return result ;
-    }
+    public:
 
-    template<class _Trait,class _ControlerSet> 
-    template <class T> TraitReference<T> Controler<_Trait,_ControlerSet>::getTrait() const
-    {
-      return getObject()->getTrait<T>() ;
-    }
-    
-    template<class _Trait,class _ControlerSet> 
-    Controler<_Trait,_ControlerSet>::~Controler()
-    {}
+      /// Access to the player.
+      Kernel::TraitReference<Player> getPlayer() const ;
 
-    template<class _Trait,class _ControlerSet> 
-    Controler<_Trait,_ControlerSet>::Controler()
-    {}
+    };
 
-    template<class _Trait,class _ControlerSet>
-    void Controler<_Trait,_ControlerSet>::onInit() 
-    {
-    }
-    
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onClose()
-    {
-    } 
-    
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onChangeParent(Object*)
-    {
-    }
-
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onUpdate()
-    {
-    }
-    template<class _Trait,class _ControlerSet>
-    _ControlerSet* Controler<_Trait,_ControlerSet>::getControlerSet() const
-    {
-      return static_cast<_ControlerSet*>(m_controler_set) ;
-    }  
   }
 }

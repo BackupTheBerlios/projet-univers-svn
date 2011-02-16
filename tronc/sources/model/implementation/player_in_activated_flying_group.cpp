@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/player.h>
+#include <model/with_player.h>
 #include <model/implementation/with_flying_group.h>
 #include <model/implementation/player_in_activated_flying_group.h>
 
@@ -30,7 +30,7 @@ namespace ProjetUnivers
     {
           
       DeclareDeducedTrait(PlayerInActivatedFlyingGroup,
-                          And(HasTrait(Player),
+                          And(HasTrait(WithPlayer),
                               HasParent(HasTrait(WithFlyingGroup)))) ;
     }
   }

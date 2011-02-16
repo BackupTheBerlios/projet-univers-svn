@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,8 +19,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/observer.h>
-#include <display/implementation/positioned.h>
 #include <model/active.h>
+#include <model/player.h>
+#include <model/plays.h>
+#include <display/implementation/positioned.h>
 #include <display/implementation/observer.h>
 
 namespace ProjetUnivers 
@@ -31,9 +33,11 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(Observer,
-                          And(HasTrait(Model::Observer),
-                              HasTrait(Implementation::RecursivelyPositioned),
-                              HasParent(HasTrait(Model::Active)))) ;
+                          And(HasTrait(Implementation::RecursivelyPositioned),
+                              IsRelated(Kernel::Inverse<Model::Plays>,
+                                        And(HasTrait(Model::Player),
+                                            HasTrait(Model::Observer),
+                                            HasTrait(Model::Active))))) ;
     }
   }
 }

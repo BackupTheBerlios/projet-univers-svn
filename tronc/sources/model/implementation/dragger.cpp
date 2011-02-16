@@ -78,12 +78,13 @@ namespace ProjetUnivers
           eventually change coefficient to tune resulting max speed...
       */
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
-      Solid* solid = physical_object ? 
-                          physical_object->getObject()->getTrait<Solid>() 
-                          : NULL ;
-      Oriented* oriented = physical_object ? 
-                              physical_object->getObject()->getTrait<Oriented>() 
-                              : NULL;
+      Solid* solid = NULL ;
+      if (physical_object)
+        solid = physical_object->getObject()->getTrait<Solid>() ;
+
+      Oriented* oriented = NULL ;
+      if (physical_object)
+        oriented = physical_object->getObject()->getTrait<Oriented>() ;
 
 //      std::cout << "Dragger::getAppliedForce physical_object=" << physical_object 
 //                << " solid=" << solid 

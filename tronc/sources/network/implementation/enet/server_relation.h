@@ -33,7 +33,7 @@ namespace ProjetUnivers
     {
       namespace Enet
       {
-        /// An object server side that need replication on clients
+        /// An primitive relation server side that need replication on clients
         class ServerRelation : public Kernel::RelationControler<NetworkSystem>
         {
         public:

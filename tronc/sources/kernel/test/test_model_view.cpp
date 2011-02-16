@@ -845,7 +845,7 @@ namespace ProjetUnivers
         /// init the viewpoint
         viewpoint->init() ;
         /// get a not present trait :
-        CPPUNIT_ASSERT(person->getTrait<Dummy>() == NULL) ;
+        CPPUNIT_ASSERT(!person->getTrait<Dummy>()) ;
       }
 
       void TestModelView::testDestroyModel()

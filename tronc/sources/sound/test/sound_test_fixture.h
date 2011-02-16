@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,55 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-namespace ProjetUnivers 
+#pragma once
+
+#include <cppunit/extensions/HelperMacros.h>
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Sound
   {
-   
-    template<class _Trait,class _ControlerSet> 
-    _Trait* Controler<_Trait,_ControlerSet>::getTrait() const
+    namespace Test
     {
-      _Trait* result = dynamic_cast<_Trait*>(m_trait) ;
-      return result ;
-    }
+      /// Common methods for testing display
+      class SoundTestFixture : public CppUnit::TestFixture
+      {
+      protected:
 
-    template<class _Trait,class _ControlerSet> 
-    template <class T> TraitReference<T> Controler<_Trait,_ControlerSet>::getTrait() const
-    {
-      return getObject()->getTrait<T>() ;
-    }
-    
-    template<class _Trait,class _ControlerSet> 
-    Controler<_Trait,_ControlerSet>::~Controler()
-    {}
+        Kernel::Object* createObserver(Kernel::Object*) const ;
+      };
 
-    template<class _Trait,class _ControlerSet> 
-    Controler<_Trait,_ControlerSet>::Controler()
-    {}
-
-    template<class _Trait,class _ControlerSet>
-    void Controler<_Trait,_ControlerSet>::onInit() 
-    {
     }
-    
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onClose()
-    {
-    } 
-    
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onChangeParent(Object*)
-    {
-    }
-
-    template<class _Trait,class _ControlerSet> 
-    void Controler<_Trait,_ControlerSet>::onUpdate()
-    {
-    }
-    template<class _Trait,class _ControlerSet>
-    _ControlerSet* Controler<_Trait,_ControlerSet>::getControlerSet() const
-    {
-      return static_cast<_ControlerSet*>(m_controler_set) ;
-    }  
   }
 }

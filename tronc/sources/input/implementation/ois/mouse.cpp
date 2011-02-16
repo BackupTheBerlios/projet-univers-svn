@@ -27,10 +27,14 @@
 #include <input/implementation/ois/mouse.h>
 
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
         
         bool Mouse::mouseMoved(const ::OIS::MouseEvent& event)
         {

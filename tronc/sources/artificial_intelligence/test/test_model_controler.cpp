@@ -68,6 +68,9 @@
 #include <artificial_intelligence/test/test_model_controler.h>
 #include <artificial_intelligence/implementation/with_vehicle_controler.h>
 #include <model/area.h>
+#include <model/player.h>
+#include <model/active.h>
+#include <model/plays_in.h>
 
 
 
@@ -475,7 +478,12 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+
+          Kernel::Object* player = model->createObject() ;
+          player->addTrait(new Model::Player()) ;
+          player->addTrait(new Model::Active()) ;
+          player->addTrait(new Model::State()) ;
+          Kernel::Link<Model::PlaysIn>(player,flying_group) ;
         }
 
         {
@@ -487,7 +495,6 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
           flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
 
         }

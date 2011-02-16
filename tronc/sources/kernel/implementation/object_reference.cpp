@@ -176,7 +176,10 @@ namespace ProjetUnivers
     
     Object* ObjectReference::operator->() const
     {
-      return ((Object*)*this) ;
+      Object* result = (Object*)*this ;
+      if (!result)
+        throw Kernel::ExceptionKernel("ObjectReference::operator->()") ;
+      return result ;
     }
 
     bool ObjectReference::operator==(const ObjectReference& reference) const 

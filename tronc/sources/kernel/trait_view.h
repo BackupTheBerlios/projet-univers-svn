@@ -22,6 +22,7 @@
 
 #include <boost/function.hpp>
 #include <kernel/base_trait_view.h>
+#include <kernel/trait_reference.h>
 
 
 namespace ProjetUnivers 
@@ -58,7 +59,11 @@ namespace ProjetUnivers
       virtual _Trait* getTrait() const ;
 
       /// Access to trait of type T if exists.
-      template <class T> T* getTrait() const ;
+      /*!
+      @todo give the trait that is part of the formula if there is only one
+      else return getObject()->getTrait()
+      */
+      template <class T> TraitReference<T> getTrait() const ;
       
       /// Access to specialized viewpoint.
       _ViewPoint* getViewPoint() const ;

@@ -22,9 +22,12 @@
 #include <model/end_of_simulation.h>
 #include <model/implementation/activated_end_of_simulation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(ActivatedEndOfSimulation,
                           And(HasTrait(Model::EndOfSimulation),

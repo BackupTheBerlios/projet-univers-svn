@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +21,7 @@
 #include <kernel/log.h>
 
 #include <model/observer.h>
-#include <model/solid.h>
+#include <model/plays.h>
 
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
@@ -64,7 +64,7 @@ namespace ProjetUnivers
           m_node->attachObject(m_camera) ;
 
           // @todo configure in files
-          m_camera->setFOVy(getTrait<Model::Observer>()->getFieldOfView()) ;
+          m_camera->setFOVy(getObject()->getUniqueLinked<Kernel::Inverse<Model::Plays> >()->getTrait<Model::Observer>()->getFieldOfView()) ;
 
           // near clip distance is 1 cm
           m_camera->setNearClipDistance(0.01/conversion_factor) ;

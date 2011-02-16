@@ -196,7 +196,7 @@ namespace ProjetUnivers
     }
 
     template <class _Relation>
-    Object* Relation::getUniqueLinked(Object* object)
+    ObjectReference Relation::getUniqueLinked(Object* object)
     {
       return Implementation::GetLink<_Relation>::getUnique(object) ;
     }

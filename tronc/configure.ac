@@ -14,10 +14,27 @@ AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 
+#########
+# Options 
+#########
+
+# code coverage
+AC_ARG_ENABLE(coverage, AC_HELP_STRING([--enable-coverage],[turn on code coverage analysis tools]))
+
+if test "x$enable_coverage" = "xyes";
+then
+  COVERAGE_CFLAGS="--coverage"
+  COVERAGE_LDFLAGS="--coverage"
+else
+  COVERAGE_CFLAGS=""
+  COVERAGE_LDFLAGS=""
+fi
+
+AC_SUBST(COVERAGE_LDFLAGS)
+
 #########################
 # Check programs presence
 #########################
-
 
 AC_LANG([C++])
 AC_PROG_CXX

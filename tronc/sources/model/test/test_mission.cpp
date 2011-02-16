@@ -41,6 +41,8 @@
 #include <model/implementation/activated_mission.h>
 #include <model/implementation/model_internal.h>
 #include <model/test/test_mission.h>
+#include <model/plays_in.h>
+#include <model/with_player.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -92,19 +94,6 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(menu->getTrait<Active>()) ;
       }
 
-      void TestMission::loadMission()
-      {
-        InternalMessage("Mission","Model::TestMission::loadMission entering") ;
-
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
-        model->init() ;
-
-        Kernel::Object* root = model->createObject() ;
-        root->addTrait(new Mission("basic_mission",NULL,NULL)) ;
-
-        Model::loadMission("basic_mission",root,NULL,NULL) ;
-      }
-
       void TestMission::initCustomMission()
       {
         InternalMessage("Mission","Model::TestMission::initCustomMission entering") ;
@@ -151,10 +140,14 @@ namespace ProjetUnivers
 
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
-
         flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
+
+        Kernel::Object* player = model->createObject() ;
+        player->addTrait(new Player()) ;
+        player->addTrait(new Active()) ;
+        player->addTrait(new State()) ;
+        Kernel::Link<PlaysIn>(player,flying_group) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
 
@@ -164,7 +157,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,
-                             system->getChildren<Player>().size()) ;
+                             system->getChildren<WithPlayer>().size()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)2,
                              system->getChildren<AutonomousCharacter>().size()) ;
 
@@ -189,7 +182,12 @@ namespace ProjetUnivers
 
           flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
-          flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
+
+          Kernel::Object* player = model->createObject() ;
+          player->addTrait(new Player()) ;
+          player->addTrait(new Active()) ;
+          player->addTrait(new State()) ;
+          Kernel::Link<PlaysIn>(player,flying_group) ;
         }
 
         {
@@ -201,7 +199,6 @@ namespace ProjetUnivers
 
           flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
-          flying_group->getTrait<FlyingGroup>()->setHasPlayer(false) ;
         }
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
@@ -212,7 +209,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,
-                             system->getChildren<Player>().size()) ;
+                             system->getChildren<WithPlayer>().size()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)5,
                              system->getChildren<AutonomousCharacter>().size()) ;
 
@@ -236,7 +233,6 @@ namespace ProjetUnivers
 
         flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
 
@@ -269,7 +265,6 @@ namespace ProjetUnivers
 
         flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(1) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
         mission->addTrait(new Played()) ;
@@ -295,7 +290,6 @@ namespace ProjetUnivers
         FlyingGroup* group = new FlyingGroup("") ;
         group->setShipName("test_ship") ;
         group->setInitialNumberOfShips(1) ;
-        group->setHasPlayer(false) ;
 
         Kernel::Object* flying_group2 = team2->createObject() ;
         flying_group2->addTrait(group) ;
@@ -339,7 +333,6 @@ namespace ProjetUnivers
 
         flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
 
@@ -477,7 +470,12 @@ namespace ProjetUnivers
 
         flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
+
+        Kernel::Object* player = model->createObject() ;
+        player->addTrait(new Player()) ;
+        player->addTrait(new Active()) ;
+        player->addTrait(new State()) ;
+        Kernel::Link<PlaysIn>(player,flying_group) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
 
@@ -498,16 +496,18 @@ namespace ProjetUnivers
             ship != ships.end() ;
             ++ship)
         {
-          if (!(*ship)->getObject()->getChildren<Player>().empty())
+          if (!(*ship)->getObject()->getChildren<WithPlayer>().empty())
             player_ship = (*ship)->getObject() ;
           else
             ai_ship = (*ship)->getObject() ;
         }
 
+        CPPUNIT_ASSERT(player_ship) ;
+
         // destroy player ship and check that ai_chip has now a player and no ai
         player_ship->destroyObject() ;
 
-        CPPUNIT_ASSERT(!ai_ship->getChildren<Player>().empty()) ;
+        CPPUNIT_ASSERT(!ai_ship->getChildren<WithPlayer>().empty()) ;
         CPPUNIT_ASSERT(ai_ship->getChildren<AutonomousCharacter>().empty()) ;
       }
 
@@ -530,7 +530,12 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+
+          Kernel::Object* player = model->createObject() ;
+          player->addTrait(new Player()) ;
+          player->addTrait(new Active()) ;
+          player->addTrait(new State()) ;
+          Kernel::Link<PlaysIn>(player,flying_group) ;
         }
 
         {
@@ -542,7 +547,6 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
           flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
         }
 
@@ -581,8 +585,13 @@ namespace ProjetUnivers
 
         flying_group1->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
-        flying_group1->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
         flying_group1->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        Kernel::Object* player = model->createObject() ;
+        player->addTrait(new Player()) ;
+        player->addTrait(new Active()) ;
+        player->addTrait(new State()) ;
+        Kernel::Link<PlaysIn>(player,flying_group1) ;
 
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Model::Team("")) ;
@@ -592,7 +601,6 @@ namespace ProjetUnivers
 
         flying_group2->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
-        flying_group2->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
         flying_group2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
 
         root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;
@@ -652,8 +660,13 @@ namespace ProjetUnivers
 
         flying_group1->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
-        flying_group1->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
         flying_group1->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        Kernel::Object* player = model->createObject() ;
+        player->addTrait(new Player()) ;
+        player->addTrait(new Active()) ;
+        player->addTrait(new State()) ;
+        Kernel::Link<PlaysIn>(player,flying_group1) ;
 
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Model::Team("")) ;
@@ -663,7 +676,6 @@ namespace ProjetUnivers
 
         flying_group2->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
-        flying_group2->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
         flying_group2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
 
         root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;

@@ -35,7 +35,6 @@ namespace ProjetUnivers
       public:
         
         void closeMission() ;
-        void loadMission() ;
         void stopPlayingMission() ;
         void initCustomMission() ;
         void initCustomMissionWithPlayer() ;
@@ -59,7 +58,6 @@ namespace ProjetUnivers
           CPPUNIT_TEST_SUITE(TestMission) ;
         
           CPPUNIT_TEST(closeMission) ;
-          CPPUNIT_TEST(loadMission) ;
           CPPUNIT_TEST(stopPlayingMission) ;
           CPPUNIT_TEST(initCustomMission) ;
           CPPUNIT_TEST(initCustomMissionWithPlayer) ;
@@ -71,7 +69,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(endOfRespawn) ;
           CPPUNIT_TEST(respawnPlayer) ;
           CPPUNIT_TEST(endOfMissionPlayerHasLost) ;
-//          CPPUNIT_TEST(endOfMissionEnemiesAreDestroyed) ;
+          //CPPUNIT_TEST(endOfMissionEnemiesAreDestroyed) ;
           
           CPPUNIT_TEST_SUITE_END() ;
 

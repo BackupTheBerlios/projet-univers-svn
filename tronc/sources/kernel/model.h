@@ -120,6 +120,8 @@ namespace ProjetUnivers
       /// Returns a dot language representation of the model relative to @c viewpoint.
       std::string toGraphviz(ViewPoint* viewpoint) const ;
 
+      std::string printRelations() const ;
+
     private:
 
       /// Creates a new Object with given parent.

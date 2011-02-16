@@ -51,9 +51,17 @@ namespace ProjetUnivers
       EventListener::EventListener()
       {}
 
-      void EventListener::startNotify(const Notifiable*)
+      void EventListener::startOnInit(const Observer*)
       {}
-      void EventListener::endNotify(const Notifiable*)
+      void EventListener::endOnInit(const Observer*)
+      {}
+      void EventListener::startOnUpdate(const Observer*)
+      {}
+      void EventListener::endOnUpdate(const Observer*)
+      {}
+      void EventListener::startOnClose(const Observer*)
+      {}
+      void EventListener::endOnClose(const Observer*)
       {}
       void EventListener::startCreateObject()
       {}

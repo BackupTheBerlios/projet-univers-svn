@@ -171,6 +171,9 @@ namespace ProjetUnivers
     {
       Relation relation(type,object1,object2,principal) ;
 
+      if (!object1 || !object2)
+        throw ExceptionKernel("Relation::createLink") ;
+
       if (! _areLinked(type,object1,object2))
       {
         object1->getModel()->addRelation(relation) ;
@@ -278,10 +281,8 @@ namespace ProjetUnivers
 
     void Relation::notify()
     {
-      notifyStartNotify(this) ;
       getObjectFrom()->getModel()->update(*this) ;
       DeducedRelation::updateRelation(*this) ;
-      notifyEndNotify(this) ;
     }
 
     void Relation::_close()
@@ -363,8 +364,9 @@ namespace ProjetUnivers
 
     std::string Relation::toString() const
     {
-      return m_type.fullName() + "(" + Kernel::toString(m_object_from->getIdentifier()) +
-             "," + Kernel::toString(m_object_to->getIdentifier()) + ")" ;
+      return m_type.fullName() + "(" +
+             Kernel::toString(m_object_from?m_object_from->getIdentifier():0) + "," +
+             Kernel::toString(m_object_to?m_object_to->getIdentifier():0) + ")" ;
     }
 
     std::string Relation::graphvizName() const

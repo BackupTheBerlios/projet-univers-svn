@@ -23,6 +23,7 @@
 #include <kernel/object.h>
 #include <kernel/observer.h>
 #include <kernel/relation_observer.h>
+#include <kernel/implementation/event_listener.h>
 #include <kernel/implementation/operation.h>
 
 namespace ProjetUnivers
@@ -117,14 +118,20 @@ namespace ProjetUnivers
         switch(m_type)
         {
         case Init:
+          notifyStartOnInit(m_observer) ;
           m_observer->realInit() ;
+          notifyEndOnInit(m_observer) ;
           break ;
         case Close:
+          notifyStartOnClose(m_observer) ;
           m_observer->realClose() ;
+          notifyEndOnClose(m_observer) ;
           break ;
         case Update:
           m_observer->m_latest_updated_trait = m_updated_trait ;
+          notifyStartOnUpdate(m_observer) ;
           m_observer->realUpdate() ;
+          notifyEndOnUpdate(m_observer) ;
           m_observer->m_latest_updated_trait = TypeIdentifier() ;
           break ;
         case ChangeParent:

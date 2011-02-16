@@ -27,7 +27,7 @@ namespace ProjetUnivers
   namespace Kernel
   {
     class Object ;
-    class Notifiable ;
+    class Observer ;
     class Trait ;
 
     namespace Implementation
@@ -57,10 +57,21 @@ namespace ProjetUnivers
       */
       //@{
 
-        /// Called when entering notify
-        virtual void startNotify(const Notifiable*) ;
-        /// Called when leaving notify
-        virtual void endNotify(const Notifiable*) ;
+
+        /// Called when entering onInit
+        virtual void startOnInit(const Observer*) ;
+        /// Called when leaving onInit
+        virtual void endOnInit(const Observer*) ;
+
+        /// Called when entering onUpdate
+        virtual void startOnUpdate(const Observer*) ;
+        /// Called when leaving onUpdate
+        virtual void endOnUpdate(const Observer*) ;
+
+        /// Called when entering onClose
+        virtual void startOnClose(const Observer*) ;
+        /// Called when leaving onClose
+        virtual void endOnClose(const Observer*) ;
 
         /// Called when entering createObject
         virtual void startCreateObject() ;
@@ -100,8 +111,12 @@ namespace ProjetUnivers
     (*listener)->method(__VA_ARGS__) ; \
   } while(0)
 
-#define notifyStartNotify(notifiable) invokeListenerMethod(startNotify,notifiable)
-#define notifyEndNotify(notifiable) invokeListenerMethod(endNotify,notifiable)
+#define notifyStartOnInit(notifiable) invokeListenerMethod(startOnInit,notifiable)
+#define notifyEndOnInit(notifiable) invokeListenerMethod(endOnInit,notifiable)
+#define notifyStartOnUpdate(notifiable) invokeListenerMethod(startOnUpdate,notifiable)
+#define notifyEndOnUpdate(notifiable) invokeListenerMethod(endOnUpdate,notifiable)
+#define notifyStartOnClose(notifiable) invokeListenerMethod(startOnClose,notifiable)
+#define notifyEndOnClose(notifiable) invokeListenerMethod(endOnClose,notifiable)
 #define notifyStartCreateObject() invokeListenerMethod(startCreateObject)
 #define notifyEndCreateObject(object) invokeListenerMethod(endCreateObject,object)
 #define notifyStartDestroyObject(object) invokeListenerMethod(startDestroyObject,object)

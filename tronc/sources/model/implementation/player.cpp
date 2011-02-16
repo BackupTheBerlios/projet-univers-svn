@@ -38,6 +38,12 @@ namespace ProjetUnivers
       }
     }
     
+    void Player::setName(const std::string& name)
+    {
+      m_name = name ;
+      notify() ;
+    }
+
     Kernel::Object* Player::getConfiguration() const
     {
       return m_configuration ;
@@ -45,7 +51,7 @@ namespace ProjetUnivers
     
     const std::string& Player::getName() const
     {
-      return m_player_name ;
+      return m_name ;
     }
 
   }

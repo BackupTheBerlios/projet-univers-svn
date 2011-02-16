@@ -18,16 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_MOUSE_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_MOUSE_H_
+#pragma once
 
 #include <OIS/OISMouse.h>
 #include <input/implementation/input_object.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
 
         /// Handle mouse.
         class Mouse : public ::OIS::MouseListener, public InputObject
@@ -68,7 +71,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_MOUSE_H_*/

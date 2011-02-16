@@ -75,7 +75,7 @@ namespace ProjetUnivers
         @return NULL if none or several
       */
       template <class _Relation>
-      static Object* getUniqueLinked(Object* object) ;
+      static ObjectReference getUniqueLinked(Object* object) ;
 
       /// True iff @c object1 @c _Relation @c object2.
       template <class _Relation>

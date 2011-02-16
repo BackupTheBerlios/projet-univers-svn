@@ -44,7 +44,7 @@ namespace ProjetUnivers
     }
 
     template <class _Trait,class _ViewPoint>
-    template <class T> T* TraitView<_Trait,_ViewPoint>::getTrait() const
+    template <class T> TraitReference<T> TraitView<_Trait,_ViewPoint>::getTrait() const
     {
       return getObject()->getTrait<T>() ;
     }

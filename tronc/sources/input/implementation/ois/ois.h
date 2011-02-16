@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_OIS_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_OIS_H_
+#pragma once
 
 namespace ProjetUnivers 
 {
@@ -65,5 +64,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_OIS_H_*/

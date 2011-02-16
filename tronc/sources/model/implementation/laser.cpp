@@ -161,7 +161,9 @@ namespace ProjetUnivers
       Positioned* positioned = getObject()->getParent<Positioned>() ;
       Oriented* oriented = getObject()->getParent<Oriented>() ;
       PhysicalObject* object = getObject()->getParent<PhysicalObject>() ;
-      PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ;
+      PhysicalWorld* world = NULL ;
+      if (object)
+        world = object->getObject()->getAncestor<PhysicalWorld>() ;
 
       if (world && positioned && oriented)
       {

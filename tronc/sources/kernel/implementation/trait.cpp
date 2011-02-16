@@ -472,8 +472,6 @@ namespace ProjetUnivers
 
     void Trait::notify()
     {
-      notifyStartNotify(this) ;
-
       lock() ;
       if (getObject() && getObject()->getModel())
         getObject()->getModel()->startTransaction() ;
@@ -504,8 +502,6 @@ namespace ProjetUnivers
       if (getObject() && getObject()->getModel())
         getObject()->getModel()->endTransaction() ;
       unlock() ;
-
-      notifyEndNotify(this) ;
     }
 
     bool Trait::hasObserver() const

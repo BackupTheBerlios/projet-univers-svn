@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <sound/test/sound_test_fixture.h>
 
 namespace ProjetUnivers
 {
@@ -30,7 +30,7 @@ namespace ProjetUnivers
     {
 
       /// Test of spatialisation effect with movement
-      class TestMovingObject : public CppUnit::TestFixture
+      class TestMovingObject : public SoundTestFixture
       {
       protected:
       /*!

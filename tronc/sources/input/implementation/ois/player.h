@@ -22,7 +22,7 @@
 
 #include <kernel/controler.h>
 
-#include <model/player.h>
+#include <model/with_player.h>
 
 #include <input/implementation/ois/input_controler_set.h>
 
@@ -36,7 +36,7 @@ namespace ProjetUnivers
       {
       
         /// Player input control.
-        class Player : public Kernel::Controler<Model::Player,InputControlerSet>
+        class Player : public Kernel::Controler<Model::WithPlayer,InputControlerSet>
         {
         public:
           

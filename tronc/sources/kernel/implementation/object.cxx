@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/relation.h>
 namespace ProjetUnivers 
 {
   namespace Kernel 
@@ -44,7 +45,7 @@ namespace ProjetUnivers
       return NULL ;
     }
 
-    template <class T> T* Object::getTrait() const
+    template <class T> TraitReference<T> Object::getTrait() const
     {
       Kernel::Inherits<T,Trait>() ;
       
@@ -53,21 +54,21 @@ namespace ProjetUnivers
       /// if trait exist convert :
       if (trait)
       {
-        return static_cast<T*>(trait) ;
+        return TraitReference<T>(static_cast<T*>(trait)) ;
       }
       else
       {
-        return NULL ;
+        return TraitReference<T>() ;
       }
     }
 
-    template <class T> T* Object::getParent() const
+    template <class T> TraitReference<T> Object::getParent() const
     {
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
       
       Object* iterator(const_cast<Object*>(this)) ;
-      T* trait(iterator->getTrait<T>()) ;
+      TraitReference<T> trait(iterator->getTrait<T>()) ;
       
       while((! trait) && iterator)
       {
@@ -82,13 +83,13 @@ namespace ProjetUnivers
       
     }
 
-    template <class T> T* Object::getAncestor() const
+    template <class T> TraitReference<T> Object::getAncestor() const
     {
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
       
       Object* iterator(getParent()) ;
-      T* trait = NULL ;
+      TraitReference<T> trait ;
       
       while((! trait) && iterator)
       {
@@ -99,13 +100,13 @@ namespace ProjetUnivers
       return trait ;
     }
 
-    template <class T> T* Object::getParentUpTo(const Object* i_object) const
+    template <class T> TraitReference<T> Object::getParentUpTo(const Object* i_object) const
     {
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
       
       Object* iterator(const_cast<Object*>(this)) ;
-      T* trait(iterator->getTrait<T>()) ;
+      TraitReference<T> trait(iterator->getTrait<T>()) ;
       
       while((! trait) && iterator && iterator != i_object)
       {
@@ -120,13 +121,13 @@ namespace ProjetUnivers
       
     }
 
-    template <class T> T* Object::getRoot() const
+    template <class T> TraitReference<T> Object::getRoot() const
     {
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
       
       Object* iterator(const_cast<Object*>(this)) ;
-      T* highest_trait_found(iterator->getTrait<T>()) ;
+      TraitReference<T> highest_trait_found(iterator->getTrait<T>()) ;
       
       while(highest_trait_found && iterator)
       {
@@ -218,12 +219,12 @@ namespace ProjetUnivers
       return result ;
     }
 
-    template <class T> T* Object::getChild() const
+    template <class T> TraitReference<T> Object::getChild() const
     {
       std::set<T*> temp(getChildren<T>()) ;
       if (temp.size() == 1)
-        return *temp.begin() ;
-      return NULL ;
+        return TraitReference<T>(*temp.begin()) ;
+      return TraitReference<T>() ;
     }
 
     template <typename ReturnType>
@@ -265,6 +266,11 @@ namespace ProjetUnivers
         return x->getIdentifier() < y->getIdentifier() ;
       }
     };
+
+    template <class _Relation> ObjectReference Object::getUniqueLinked()
+    {
+      return Relation::getUniqueLinked<_Relation>(this) ;
+    }
 
   }
 }

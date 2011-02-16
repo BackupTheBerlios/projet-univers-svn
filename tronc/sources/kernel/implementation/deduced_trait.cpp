@@ -2473,8 +2473,6 @@ namespace ProjetUnivers
 
     void DeducedTrait::notify()
     {
-      notifyStartNotify(this) ;
-
       if (m_updating.find(this) != m_updating.end())
       {
         // InternalMessage("Update","Skipping update trait because already updated") ;
@@ -2488,7 +2486,6 @@ namespace ProjetUnivers
       updateDependents() ;
       unlock() ;
       m_updating.erase(this) ;
-      notifyEndNotify(this) ;
     }
 
   // @}

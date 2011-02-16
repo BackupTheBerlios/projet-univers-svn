@@ -49,9 +49,6 @@ namespace ProjetUnivers
       /// Change the number of ships.
       void setInitialNumberOfShips(const unsigned int&) ;
       
-      /// Change the fact it has player or not
-      void setHasPlayer(const bool&) ;
-      
       /// Set the number of creations.
       void setNumberOfSpawn(const unsigned int&) ;
       
@@ -76,8 +73,11 @@ namespace ProjetUnivers
       /// Access to number of lives.
       const unsigned int& getNumberOfSpawn() const ;
       
-      /// True iff it has player in it.
-      const bool& hasPlayer() const ;
+      /// True iff it has current player in it.
+      /*!
+      @deprecated
+      */
+      bool hasPlayer() const ;
       
       /// Objective of the group
       const Objective& getObjective() const ;

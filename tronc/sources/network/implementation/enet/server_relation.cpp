@@ -42,7 +42,7 @@ namespace ProjetUnivers
           m_relation = NULL ;
           if (!getRelation()->isPrimitive())
           {
-            std::cout << "not primitive" ;
+            //std::cout << "not primitive" ;
             return ;
           }
 

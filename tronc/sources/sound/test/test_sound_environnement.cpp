@@ -77,11 +77,8 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
+        listener->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0))) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
 

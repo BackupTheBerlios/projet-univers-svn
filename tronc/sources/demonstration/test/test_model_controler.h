@@ -40,6 +40,7 @@ namespace ProjetUnivers
 
         void attackAllEnemies() ;
         void basicDestroy() ;
+        void playMission() ;
 
       // @}
 
@@ -48,6 +49,7 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(attackAllEnemies) ;
         CPPUNIT_TEST(basicDestroy) ;
+        CPPUNIT_TEST(playMission) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

@@ -27,8 +27,10 @@
 #include <model/edited.h>
 #include <model/state.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     State::State()
     {}

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -89,12 +89,8 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        Model::Positioned* listenerPos = new Model::Positioned();
-        listener->addTrait(listenerPos) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
+        Model::Positioned* listenerPos = listener->getTrait<Model::Positioned>();
 
         Kernel::Object* engine = system->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
@@ -242,12 +238,8 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        Model::Positioned* listenerPos = new Model::Positioned();
-        listener->addTrait(listenerPos) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
+        Model::Positioned* listenerPos = listener->getTrait<Model::Positioned>();
         
         Kernel::Object* ship = system->createObject() ;
         Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
@@ -299,12 +291,8 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        Model::Positioned* listenerPos = new Model::Positioned();
-        listener->addTrait(listenerPos) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
+        Model::Positioned* listenerPos = listener->getTrait<Model::Positioned>();
         
         Kernel::Object* ship = system->createObject() ;
         Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
@@ -360,11 +348,7 @@ namespace ProjetUnivers
         Model::Positioned* listener_ship_positioned = new Model::Positioned();
         listener_ship->addTrait(listener_ship_positioned) ;
         
-        Kernel::Object* listener = listener_ship->createObject() ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(listener_ship) ;
         
         Kernel::Object* ship = system->createObject() ;
         Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
@@ -417,10 +401,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->setName("system") ;
 
-        Kernel::Object* pilot = system->createObject() ;
-        pilot->addTrait(new Model::Listener()) ;
-        pilot->addTrait(new Model::Positioned()) ;
-        pilot->addTrait(new Model::Active()) ;
+        Kernel::Object* pilot = createObserver(system) ;
 
         Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 
@@ -465,11 +446,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->setName("system") ;
 
-        Kernel::Object* pilot = system->createObject() ;
-        pilot->addTrait(new Model::Listener()) ;
-        pilot->addTrait(new Model::Positioned()) ;
-        pilot->addTrait(new Model::Mobile()) ;
-        pilot->addTrait(new Model::Active()) ;
+        Kernel::Object* pilot = createObserver(system) ;
 
         Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 

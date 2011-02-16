@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,6 +35,7 @@
 #include <model/custom_mission.h>
 #include <model/team.h>
 #include <model/flying_group.h>
+#include <model/plays_in.h>
 
 #include <display/implementation/ogre/ogre.h>
 
@@ -563,7 +564,7 @@ namespace ProjetUnivers
 
       void TestCustomMission::decreaseNumberOfSpawn()
       {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::increaseNumberOfSpawn")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::decreaseNumberOfSpawn")) ;
         model->init() ;
 
         Kernel::Object* mission = model->createObject() ;
@@ -597,7 +598,7 @@ namespace ProjetUnivers
 
       void TestCustomMission::decreaseNumberOfSpawnEqualOne()
       {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::increaseNumberOfSpawn")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::decreaseNumberOfSpawnEqualOne")) ;
         model->init() ;
 
         Kernel::Object* mission = model->createObject() ;
@@ -632,19 +633,26 @@ namespace ProjetUnivers
 
       void TestCustomMission::hasPlayer()
       {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::increaseNumberOfSpawn")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
 
         Kernel::Object* mission = model->createObject() ;
         mission->addTrait(new Model::CustomMission("test",NULL,NULL)) ;
         mission->addTrait(new Model::Edited()) ;
 
+        Kernel::Object* player = model->createObject() ;
+        player->addTrait(new Model::Player()) ;
+        player->getTrait<Model::Player>()->setName("Player1") ;
+
         Kernel::Object* team = mission->createObject() ;
         team->addTrait(new Model::Team("test")) ;
 
         Kernel::Object* flying_group = team->createObject() ;
+        Kernel::Link<Model::PlaysIn>(player,flying_group) ;
         flying_group->addTrait(new Model::FlyingGroup("test")) ;
-        flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+
+        CPPUNIT_ASSERT(flying_group->getUniqueLinked<Kernel::Inverse<Model::PlaysIn> >()) ;
+        CPPUNIT_ASSERT(flying_group->getUniqueLinked<Kernel::Inverse<Model::PlaysIn> >()->getTrait<Model::Player>()) ;
 
         Implementation::CEGUI::FlyingGroup* group_gui =
         flying_group->getTrait<Implementation::EditedFlyingGroup>()
@@ -655,13 +663,13 @@ namespace ProjetUnivers
 
         ::CEGUI::Window* pilot = group_gui->m_pilot ;
         CPPUNIT_ASSERT(pilot) ;
-        CPPUNIT_ASSERT_EQUAL(std::string("Player"),
+        CPPUNIT_ASSERT_EQUAL(std::string("Player1"),
                              std::string(pilot->getText().c_str())) ;
       }
 
       void TestCustomMission::hasNotPlayer()
       {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCustomMission::increaseNumberOfSpawn")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
 
         Kernel::Object* mission = model->createObject() ;
@@ -673,7 +681,6 @@ namespace ProjetUnivers
 
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new Model::FlyingGroup("test")) ;
-        flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
 
         Implementation::CEGUI::FlyingGroup* group_gui =
         flying_group->getTrait<Implementation::EditedFlyingGroup>()

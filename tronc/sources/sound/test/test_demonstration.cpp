@@ -52,19 +52,6 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      Kernel::Object* TestDemonstration::createObserver(Kernel::Object* parent) const
-      {
-        Kernel::Object* observer = parent->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Listener()) ;
-
-        return observer ;
-      }
-
       void TestDemonstration::oneShip()
       {
         InternalMessage("Sound","entering TestDemonstration::oneShip") ;
@@ -88,13 +75,7 @@ namespace ProjetUnivers
 
 //        Kernel::Object* ship = Model::loadShip("test_ship",system) ;
 
-        Kernel::Object* pilot = system->createObject() ;
-        pilot->addTrait(new Model::Listener()) ;
-        pilot->addTrait(new Model::Positioned()) ;
-        pilot->addTrait(new Model::Oriented()) ;
-        pilot->addTrait(new Model::Player()) ;
-        pilot->addTrait(new Model::Observer()) ;
-        pilot->addTrait(new Model::Active()) ;
+        Kernel::Object* pilot = createObserver(system) ;
         pilot->addTrait(new Model::Mobile()) ;
 
         Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
@@ -142,13 +123,7 @@ namespace ProjetUnivers
           system->addTrait(new Model::Positioned()) ;
           system->setName("system") ;
 
-          Kernel::Object* pilot = system->createObject() ;
-          pilot->addTrait(new Model::Listener()) ;
-          pilot->addTrait(new Model::Positioned()) ;
-          pilot->addTrait(new Model::Oriented()) ;
-          pilot->addTrait(new Model::Player()) ;
-          pilot->addTrait(new Model::Observer()) ;
-          pilot->addTrait(new Model::Active()) ;
+          Kernel::Object* pilot = createObserver(system) ;
           pilot->addTrait(new Model::Mobile()) ;
 
           Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
@@ -182,13 +157,7 @@ namespace ProjetUnivers
           system->addTrait(new Model::Positioned()) ;
           system->setName("system") ;
 
-          Kernel::Object* pilot = system->createObject() ;
-          pilot->addTrait(new Model::Listener()) ;
-          pilot->addTrait(new Model::Positioned()) ;
-          pilot->addTrait(new Model::Oriented()) ;
-          pilot->addTrait(new Model::Player()) ;
-          pilot->addTrait(new Model::Observer()) ;
-          pilot->addTrait(new Model::Active()) ;
+          Kernel::Object* pilot = createObserver(system) ;
 
           Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 

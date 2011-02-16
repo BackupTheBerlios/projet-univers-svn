@@ -34,6 +34,7 @@
 #include <kernel/inherits.h>
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/trait_reference.h>
 #include <kernel/implementation/number.h>
 
 
@@ -139,7 +140,7 @@ namespace ProjetUnivers
       Model* getModel() const ;
 
       /// Access to trait of type T if exists.
-      template <class T> T* getTrait() const ;
+      template <class T> TraitReference<T> getTrait() const ;
 
       /// Retrieve the trait named @c trait_name.
       Trait* getPrimitiveTrait(const TypeIdentifier& trait_name) const ;
@@ -157,13 +158,13 @@ namespace ProjetUnivers
       template <class _View> _View* getView(ViewPoint* i_viewpoint) ;
 
       /// Top most ancestor with T trait.
-      template <class T> T* getRoot() const ;
+      template <class T> TraitReference<T> getRoot() const ;
 
       /// First ancestor (including @c this) with trait T.
-      template <class T> T* getParent() const ;
+      template <class T> TraitReference<T> getParent() const ;
 
       /// First ancestor (excluding @c this) with trait T.
-      template <class T> T* getAncestor() const ;
+      template <class T> TraitReference<T> getAncestor() const ;
 
       /// First ancestor (including @c this) with trait T and not up to @c i_object.
       /*!
@@ -171,7 +172,7 @@ namespace ProjetUnivers
           if no object has T trait between this and @c i_object
           or @c i_object is not ancestor of this.
       */
-      template <class T> T* getParentUpTo(const Object* i_object) const ;
+      template <class T> TraitReference<T> getParentUpTo(const Object* i_object) const ;
 
       /// Get all the descendant (excluding @c this) with trait T.
       template <class T> std::set<T*> getDescendants() const ;
@@ -186,7 +187,16 @@ namespace ProjetUnivers
       /*!
         Return NULL iff severals.
       */
-      template <class T> T* getChild() const ;
+      template <class T> TraitReference<T> getChild() const ;
+
+      /// Access to all children.
+      const std::set<Object*>& getChildren() const ;
+
+      /// Returns the linked object through @c _Relation.
+      /*!
+        @return NULL if none or several
+      */
+      template <class _Relation> ObjectReference getUniqueLinked() ;
 
       /// Call a void command.
       /*!
@@ -215,9 +225,6 @@ namespace ProjetUnivers
 
       /// Access to all commands understood be the object.
       std::set<std::string> getCommands() const ;
-
-      /// Access to all children.
-      const std::set<Object*>& getChildren() const ;
 
       /// True when object is deleting.
       bool isDeleting() const ;

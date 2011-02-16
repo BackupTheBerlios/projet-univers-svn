@@ -28,6 +28,8 @@
 
 #include <model/custom_mission.h>
 #include <model/flying_group.h>
+#include <model/plays_in.h>
+#include <model/player.h>
 
 #include <input/input_gui.h>
 
@@ -52,7 +54,7 @@ namespace ProjetUnivers
 
         void FlyingGroup::onInit()
         {
-          InternalMessage("CustomMission","CEGUI::FlyingGroup::onInit") ;
+          InternalMessage("GUI","CEGUI::FlyingGroup::onInit") ;
 
           m_updating = false ;
 
@@ -160,6 +162,8 @@ namespace ProjetUnivers
           button_delete->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                         ::CEGUI::Event::Subscriber(&FlyingGroup::deleteGroup,this)) ;
 
+          onUpdate() ;
+
           InternalMessage("GUI",printStructure(m_window,0)) ;
         }
 
@@ -182,8 +186,26 @@ namespace ProjetUnivers
           m_ship->setText(m_group->getShipName()) ;
           m_number_of_ships->setText(Kernel::toString(m_group->getInitialNumberOfShips())) ;
           m_number_of_spawn->setText(Kernel::toString(m_group->getNumberOfSpawn())) ;
-          m_pilot->setText(m_group->hasPlayer()?"Player":"AI") ;
 
+          std::string player_name("AI") ;
+
+          Kernel::Object* player = getObject()->getUniqueLinked<Kernel::Inverse<Model::PlaysIn> >() ;
+          if (player)
+          {
+            InternalMessage("GUI","FlyingGroup::onUpdate has player") ;
+            Model::Player* player_trait = player->getTrait<Model::Player>() ;
+            if (player_trait)
+            {
+              player_name = player_trait->getName() ;
+              InternalMessage("GUI","FlyingGroup::onUpdate has player trait") ;
+            }
+            else
+              InternalMessage("GUI","FlyingGroup::onUpdate has no player trait") ;
+          }
+          else
+            InternalMessage("GUI","FlyingGroup::onUpdate has no player") ;
+
+          m_pilot->setText(player_name) ;
           m_updating = false ;
         }
 

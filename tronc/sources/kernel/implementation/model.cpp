@@ -119,8 +119,6 @@ namespace ProjetUnivers
       object->_close() ;
       addObjectToDestroy(object) ;
 
-      removeRelations(object) ;
-
       endTransaction() ;
       notifyEndDestroyObject() ;
     }
@@ -593,11 +591,37 @@ namespace ProjetUnivers
 
     Relation* Model::getCanonical(const Relation& relation)
     {
-      return &(m_canonical_relations.find(relation)->second) ;
+      std::map<Relation,Relation>::const_iterator finder = m_canonical_relations.find(relation) ;
+      if (finder != m_canonical_relations.end())
+        return &(m_canonical_relations.find(relation)->second) ;
+      return NULL ;
+    }
+
+    std::string Model::printRelations() const
+    {
+      std::string result ;
+
+      for(std::set<Relation>::const_iterator r = m_relations.begin() ; r != m_relations.end() ; ++r)
+      {
+        result += r->toString() ;
+        result += "\n" ;
+      }
+      return result ;
     }
 
     void Model::addRelation(const Relation& relation)
     {
+      /*
+      Not satisfactory : we should add the relation and destroy it after
+      */
+      if (isToBeDestroyed(relation.getObjectFrom()) ||
+          isToBeDestroyed(relation.getObjectTo()) ||
+          relation.getObjectFrom()->isDeleting() ||
+          relation.getObjectTo()->isDeleting())
+      {
+        return ;
+      }
+
       startTransaction() ;
 
       if (m_pair_reference_counting.find(relation) == m_pair_reference_counting.end())
@@ -611,7 +635,7 @@ namespace ProjetUnivers
        handle the case where during a transaction we add, remove and re-add the
        the same relation @see TestRelationView::severalInitCloseInTheSameFrame
       */
-      if (isToDestroy(relation))
+      if (isToBeDestroyed(relation))
       {
         unRecordRelationToDestroy(relation) ;
       }

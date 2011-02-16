@@ -1787,6 +1787,27 @@
 - serialization for object references
 - serialization for bool
 - connection timeout
+
+2011-02-16
+- much better debugging, all Trait access are now guarded through TraitReference
+  that catches NULL pointer access
+- added a memorisation of current framework stack when 
+  [Kernel] 
+  debug=true
+  Example :
+   what():  stack...
+   Model::Implementation::Logic::FlyingGroup::onInit()
+   TraitReference<Model::State>::operator->()
+
+#5146 Create base network system : full refactoring of Player for multi player
+- WithPlayer <=> IsRelated(Inverse(Plays),Player&Active)
+- Player PlaysIn FlyingGroup... 
+- trait queries return TraitReferences (catches null pointer access) 
+- Display::Observer becomes WithPlayer & RecPos
+- Sound::Listener becomes WithPlayer & RecPos
+- OIS::Player becomes a view on with player
+- GUI adaptation : any group may have a player, but only one player per group 
+
     
 in commit
 --------
@@ -1797,7 +1818,10 @@ in progress
 
 
 @todo
-----
+-----
+
+--> we may then have several players pointing to the same model sub part as long 
+as only one is active  
 
 - serialization for ogre vector
 - serialization for quaternions 
@@ -1808,11 +1832,6 @@ in progress
 - serialization for vector
 - serialization for list
 
-- ?? a piloting relationship between player and ship + a separate object for 
-     player that we never destroy, active player is the one on the machine
-     plus a pilot object inside the ship so old Player and Active becomes : 
-     Pilot and IsRelated(Inverse(DelegateCommand),Player and Active)
-
 - the issue will be network serialization to an object not synchronized
 
 - Observer and Listener should be removed or converted into deduced traits using 
@@ -1822,7 +1841,7 @@ in progress
   that contains an unsupported type 
 
 - rationalisation of model regarding network : 
-  - remove of Kernel::Model in Computer, change ComputerData
+  - remove of Kernel::Model in Computer, change ComputerData ? needed ?
   - change HeadUpDisplay
   - better use of relation
   - allow several players
@@ -2012,6 +2031,10 @@ in progress
   kernel todos   
   
 * Kernel : 
+
+- add a formula that express Or(A,Not(A)) : OnChanged(A) triggers update when 
+  A changes value but always true
+
 - detect illegal access in view/controler, an illegal access is accessing a 
   trait/view/controler that is not part of the formula
 

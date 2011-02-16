@@ -66,11 +66,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* emmiter = system->createObject() ;
         emmiter->addTrait(new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
@@ -117,11 +113,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = system->createObject() ;
-        listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positioned()) ;
-        listener->addTrait(new Model::Oriented()) ;
-        listener->addTrait(new Model::Mobile());
+        Kernel::Object* listener = createObserver(system) ;
 
         Kernel::Object* emmiter = system->createObject() ;
         emmiter->addTrait(new Model::BackgroundSound("test.wav")) ;

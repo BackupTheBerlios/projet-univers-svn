@@ -62,6 +62,8 @@
 #include <display/implementation/target.h>
 #include <display/implementation/ogre/ogre.h>
 #include <model/sized.h>
+#include <model/plays_in.h>
+#include <model/plays.h>
 
 namespace ProjetUnivers
 {
@@ -92,16 +94,15 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
+        Kernel::Object* observer = createObserver(system) ;
         InternalMessage("Display","Display::TestModelView::testConstruct") ;
-        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        observer->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y)) ;
 
         Implementation::Ogre::Positioned* positioned_observer = observer->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
-        CPPUNIT_ASSERT(positioned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(0,0,1,0),::Ogre::Degree(5))) ;
+        ::Ogre::Quaternion global_orientation(positioned_observer->getNode()->_getDerivedOrientation()) ;
+
+        CPPUNIT_ASSERT_MESSAGE(::Ogre::StringConverter::toString(global_orientation),
+                               global_orientation.equals(::Ogre::Quaternion(0,0,1,0),::Ogre::Degree(5))) ;
 
         observer->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion()) ;
         CPPUNIT_ASSERT(positioned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(1,0,0,0),::Ogre::Degree(5))) ;
@@ -140,12 +141,7 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer = createObserver(system) ;
 
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -255,12 +251,7 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer = createObserver(system) ;
 
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -278,12 +269,7 @@ namespace ProjetUnivers
           }
           if (destroyed && !recreated && global_timer.getSecond() > 0.2)
           {
-            observer = system->createObject() ;
-            observer->addTrait(new Model::Observer()) ;
-            observer->addTrait(new Model::Player()) ;
-            observer->addTrait(new Model::Active()) ;
-            observer->addTrait(new Model::Positioned()) ;
-            observer->addTrait(new Model::Oriented()) ;
+            observer = createObserver(system) ;
             recreated = true ;
           }
 
@@ -337,12 +323,7 @@ namespace ProjetUnivers
 
         ship->changeParent(system) ;
 
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer = createObserver(system) ;
 
         model->update(1) ;
 
@@ -367,14 +348,12 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
-        Kernel::Object* observer1 = system->createObject() ;
-        observer1->addTrait(new Model::Observer()) ;
-        observer1->addTrait(new Model::Active()) ;
-        observer1->addTrait(new Model::Positioned()) ;
-        observer1->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer1 = createObserver(system) ;
 
         Kernel::Object* observer2 = system->createObject() ;
         observer2->addTrait(new Model::Observer()) ;
+        observer2->addTrait(new Model::Player()) ;
+        observer2->addTrait(new Model::Active()) ;
         observer2->addTrait(new Model::Positioned(Model::Position::Meter(0,0,500))) ;
         observer2->addTrait(new Model::Oriented()) ;
 
@@ -391,8 +370,9 @@ namespace ProjetUnivers
           model->update(seconds) ;
         }
 
-        observer1->destroyTrait(observer1->getTrait<Model::Active>()) ;
-        observer2->addTrait(new Model::Active()) ;
+        Kernel::UnLink<Model::Plays>(observer1,observer1) ;
+
+        Kernel::Link<Model::Plays>(observer2,observer2) ;
 
         global_timer.reset() ;
         while (global_timer.getSecond() < 0.1)
@@ -465,7 +445,12 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+
+          Kernel::Object* player = model->createObject() ;
+          player->addTrait(new Model::Player()) ;
+          player->addTrait(new Model::Active()) ;
+          player->addTrait(new Model::State()) ;
+          Kernel::Link<Model::PlaysIn>(player,flying_group) ;
         }
 
         {
@@ -477,7 +462,6 @@ namespace ProjetUnivers
 
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
-          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
           flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
 
         }

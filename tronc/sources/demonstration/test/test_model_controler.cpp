@@ -65,6 +65,10 @@
 #include <model/area.h>
 #include <model/head_up_display.h>
 #include <model/implementation/logic/logic_system.h>
+#include <model/plays.h>
+#include <model/end_of_simulation.h>
+#include <model/listener.h>
+#include <model/plays_in.h>
 
 #include <physic/physic.h>
 
@@ -110,6 +114,7 @@ namespace ProjetUnivers
         observer->addTrait(new Model::Active()) ;
         observer->addTrait(new Model::Positioned(Model::Position::Meter(400,1500,-1000))) ;
         observer->addTrait(new Model::Oriented(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_X)))) ;
+        Kernel::Link<Model::Plays>(observer,observer) ;
 
         Kernel::ObjectReference ship1 ;
         {
@@ -190,6 +195,7 @@ namespace ProjetUnivers
         observer->addTrait(new Model::Active()) ;
         observer->addTrait(new Model::Positioned(Model::Position::Meter(0,1000,0))) ;
         observer->addTrait(new Model::Oriented(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_X)))) ;
+        Kernel::Link<Model::Plays>(observer,observer) ;
 
         /*
         Situation seen from top :
@@ -243,6 +249,80 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!ship2) ;
       }
+
+      void TestModelControler::playMission()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Model::State()) ;
+
+        Kernel::Object* quit = root->createObject() ;
+        quit->setName("quit") ;
+        quit->addTrait(new Model::EndOfSimulation()) ;
+        quit->addTrait(new Model::State()) ;
+
+        Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(root) ;
+        player_configuration->setName("player_configuration") ;
+        player_configuration->addTrait(new Model::State()) ;
+
+        Kernel::Object* player = root->createObject() ;
+        player->addTrait(new Model::State()) ;
+        player->addTrait(new Model::Player()) ;
+        player->addTrait(new Model::Observer()) ;
+        player->addTrait(new Model::Listener()) ;
+        player->addTrait(new Model::Active()) ;
+
+        Model::Player::connect(player,player_configuration) ;
+
+        Kernel::Object* mission = root->createObject() ;
+        mission->setName("mission") ;
+        mission->addTrait(new Model::State()) ;
+
+        Model::CustomMission* custom = new Model::CustomMission("basic_mission",player,NULL) ;
+        custom->setStartingDistance(Model::Distance(Model::Distance::_Meter,5000)) ;
+        mission->addTrait(custom) ;
+
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Model::Team("ally")) ;
+
+        Kernel::Object* fg1 = team1->createObject() ;
+        fg1->addTrait(new Model::FlyingGroup("ally")) ;
+        fg1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(4) ;
+        fg1->getTrait<Model::FlyingGroup>()->setShipName("default_ship") ;
+
+        // the player is in fyling group 1
+        Kernel::Link<Model::PlaysIn>(player,fg1) ;
+
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Model::Team("enemy")) ;
+
+        Kernel::Object* fg2 = team2->createObject() ;
+        fg2->addTrait(new Model::FlyingGroup("enemy")) ;
+        fg2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(8) ;
+        fg2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+        fg2->getTrait<Model::FlyingGroup>()->setShipName("default_ship") ;
+
+        model->update(0.1) ;
+
+        mission->addTrait(new Model::Played()) ;
+
+        model->update(0.1) ;
+
+        mission->destroyTrait(mission->getTrait<Model::Played>()) ;
+
+        model->update(0.1) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)0,Kernel::Relation::getLinked<Model::Plays>(player).size()) ;
+
+        quit->addTrait(new Model::Active()) ;
+
+        model->update(0.1) ;
+
+        model->close() ;
+      }
+
     }
   }
 }

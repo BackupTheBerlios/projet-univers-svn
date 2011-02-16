@@ -21,6 +21,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include <kernel/implementation/event_listener.h>
 
 namespace ProjetUnivers
@@ -37,15 +38,32 @@ namespace ProjetUnivers
 
         Debugger() ;
 
+        void activate() ;
+
+        static Debugger& getDebugger() ;
+
+        /// Give the current stack
+        std::string getStack() const ;
+
       /*!
       @name Call back methods
       */
       //@{
 
-        /// Called when entering notify
-        virtual void startNotify(const Notifiable*) ;
-        /// Called when leaving notify
-        virtual void endNotify(const Notifiable*) ;
+        /// Called when entering onInit
+        virtual void startOnInit(const Observer*) ;
+        /// Called when leaving onInit
+        virtual void endOnInit(const Observer*) ;
+
+        /// Called when entering onUpdate
+        virtual void startOnUpdate(const Observer*) ;
+        /// Called when leaving onUpdate
+        virtual void endOnUpdate(const Observer*) ;
+
+        /// Called when entering onClose
+        virtual void startOnClose(const Observer*) ;
+        /// Called when leaving onClose
+        virtual void endOnClose(const Observer*) ;
 
         /// Called when entering createObject
         virtual void startCreateObject() ;
@@ -69,6 +87,12 @@ namespace ProjetUnivers
 
       //@}
       private:
+
+        /// singleton
+        static Debugger debugger ;
+
+        /// Current stack usefull for exceptions messages
+        std::vector<std::string> m_stack ;
 
         /// Debug version for object
         struct _Object

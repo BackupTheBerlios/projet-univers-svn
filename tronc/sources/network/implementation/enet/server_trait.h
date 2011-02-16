@@ -33,7 +33,7 @@ namespace ProjetUnivers
     {
       namespace Enet
       {
-        /// An object server side that need replication on clients
+        /// An primitive trait server side that need replication on clients
         class ServerTrait : public Kernel::Controler<Kernel::Trait,
                                                      NetworkSystem>
         {

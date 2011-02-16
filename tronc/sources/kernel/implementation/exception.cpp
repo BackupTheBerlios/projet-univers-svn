@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/implementation/debugger.h>
 #include <kernel/exception.h>
 
 namespace ProjetUnivers
@@ -27,11 +28,15 @@ namespace ProjetUnivers
 
     Exception::Exception(const std::string& message)
     : m_message(message),numeroErreur(0)
-    {}
+    {
+      m_message = Implementation::Debugger::getDebugger().getStack() + m_message ;
+    }
 
     Exception::Exception(const std::string& message,const unsigned int& numero)
     : m_message(message),numeroErreur(numero)
-    {}
+    {
+      m_message = Implementation::Debugger::getDebugger().getStack() + m_message ;
+    }
 
     Exception::~Exception() throw()
     {}

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GUI_IMPLEMENTATION_EDITED_FLYING_GROUP_H_
-#define PU_GUI_IMPLEMENTATION_EDITED_FLYING_GROUP_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
@@ -36,4 +35,3 @@ namespace ProjetUnivers
     }
   }
 }
-#endif /*PU_GUI_IMPLEMENTATION_EDITED_FLYING_GROUP_H_*/

@@ -58,6 +58,7 @@
 #include <display/implementation/positioned.h>
 #include <display/implementation/observer.h>
 #include <display/implementation/head_up_display.h>
+#include <model/plays.h>
 
 using ProjetUnivers::Display::Implementation::Ogre::HUD::Target;
 
@@ -251,11 +252,7 @@ namespace ProjetUnivers
         ship1->addTrait(new Model::HeadUpDisplay()) ;
         Model::HeadUpDisplay::connect(ship1,ship1) ;
 
-        Kernel::Object* observer = ship1->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer = createObserver(ship1) ;
 
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Model::Detector(Model::Distance(Model::Distance::_Meter,2000))) ;
@@ -266,6 +263,8 @@ namespace ProjetUnivers
 
         Kernel::Object* observer2 = ship2->createObject() ;
         observer2->addTrait(new Model::Observer()) ;
+        observer2->addTrait(new Model::Player()) ;
+        observer2->addTrait(new Model::Active()) ;
         observer2->addTrait(new Model::Positioned(Model::Position::Meter(0,0,500))) ;
         observer2->addTrait(new Model::Oriented()) ;
 
@@ -292,8 +291,7 @@ namespace ProjetUnivers
         Model::HeadUpDisplay::connect(ship2,ship2) ;
 
         // @todo still some checks to perform...
-
-        observer2->addTrait(new Model::Active()) ;
+        Kernel::Link<Model::Plays>(observer2,observer2) ;
         CPPUNIT_ASSERT(viewpoint->getObserver()) ;
         CPPUNIT_ASSERT_EQUAL(Model::Position::Meter(0,0,500),
                              Model::getRelativePosition(viewpoint->getObserver(),universe)) ;

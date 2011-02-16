@@ -76,6 +76,7 @@ $(vorbisfile_LIBS) \
 $(freealut_LIBS)
 
 test_sound_SOURCES = \
+../test/sound_test_fixture.cpp \
 ../test/test_sound.cpp \
 ../test/test_background_sound.cpp \
 ../test/test_cone_property.cpp \

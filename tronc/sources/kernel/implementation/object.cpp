@@ -483,6 +483,8 @@ namespace ProjetUnivers
       {
         destroyTrait(*trait) ;
       }
+
+      getModel()->removeRelations(this) ;
     }
 
     void Object::_close(ViewPoint* i_viewpoint)
