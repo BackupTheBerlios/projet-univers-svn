@@ -114,18 +114,12 @@ namespace ProjetUnivers
         keyboard->keyPressed(keyboard_event) ;
 
         // count the actual interpreted key pressed events...
-        Kernel::Timer global_timer ;
-        Kernel::Timer timer ;
-        
         const float simulation_time = 2 ; 
+        const float delta = 0.01 ;
         
-        while (global_timer.getSecond() < simulation_time)
+        for (float time = 0 ; time <= simulation_time ; time += delta)
         {
-          if (timer.getSecond() > 0.1)
-          {
-            model->update(timer.getSecond()) ;
-            timer.reset() ;
-          }
+          model->update(delta) ;
         }
         
         CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/
@@ -192,18 +186,12 @@ namespace ProjetUnivers
         mouse->mousePressed(mouse_event,::OIS::MB_Right) ;
         
         // count the actual interpreted key pressed events...
-        Kernel::Timer global_timer ;
-        Kernel::Timer timer ;
-        
         const float simulation_time = 2 ; 
+        const float delta = 0.01 ;
         
-        while (global_timer.getSecond() < simulation_time)
+        for (float time = 0 ; time <= simulation_time ; time += delta)
         {
-          if (timer.getSecond() > 0.1)
-          {
-            model->update(timer.getSecond()) ;
-            timer.reset() ;
-          }
+          model->update(delta) ;
         }
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/
@@ -253,6 +241,8 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::testJoystickAutoRepeat")) ;
         model->init() ;
+        Kernel::ControlerSet* controler_set = model->getControlerSet<Implementation::OIS::InputControlerSet>() ;
+        controler_set->setTimeStep(0.01) ;
 
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new Joystick()) ;
@@ -268,18 +258,12 @@ namespace ProjetUnivers
         joystick->buttonPressed(joystick_event,1) ;
         
         // count the actual interpreted key pressed events...
-        Kernel::Timer global_timer ;
-        Kernel::Timer timer ;
-        
         const float simulation_time = 2 ; 
+        const float delta = 0.01 ;
         
-        while (global_timer.getSecond() < simulation_time)
+        for (float time = 0 ; time <= simulation_time ; time += delta)
         {
-          if (timer.getSecond() > 0.1)
-          {
-            model->update(timer.getSecond()) ;
-            timer.reset() ;
-          }
+          model->update(delta) ;
         }
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/

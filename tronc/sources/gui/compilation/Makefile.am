@@ -4,7 +4,7 @@ lib_LTLIBRARIES = libgui.la
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
-AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
+AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libgui_la_SOURCES = \
 ../implementation/gui.cpp \

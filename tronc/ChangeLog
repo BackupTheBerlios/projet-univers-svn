@@ -1808,6 +1808,9 @@
 - OIS::Player becomes a view on with player
 - GUI adaptation : any group may have a player, but only one player per group 
 
+
+2011-02-17
+- input test is too often ko 
     
 in commit
 --------
@@ -1833,9 +1836,6 @@ as only one is active
 - serialization for list
 
 - the issue will be network serialization to an object not synchronized
-
-- Observer and Listener should be removed or converted into deduced traits using 
-  relationship to current player
 
 - add a type check for supported basic types : display thoses primitives traits
   that contains an unsupported type 
