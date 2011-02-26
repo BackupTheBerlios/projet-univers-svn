@@ -243,6 +243,165 @@ namespace ProjetUnivers
       }
 
 
+      void TestReflection::serialisationOfOgreVector()
+      {
+        Reflection::Ogre3DTrait trait ;
+        trait.setVector(::Ogre::Vector3(1,2,3)) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::Ogre3DTrait(m_value=1 2 3)"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfOgreVector()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::Ogre3DTrait(m_value=5 3 1)") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::Ogre3DTrait* primitive = dynamic_cast<Reflection::Ogre3DTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getVector() == ::Ogre::Vector3(5,3,1)) ;
+      }
+
+      void TestReflection::serialisationOfOgreQuaternion()
+      {
+        Reflection::QuaternionTrait trait ;
+        trait.setValue(::Ogre::Quaternion(1,2,3,8)) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::QuaternionTrait(m_value=1 2 3 8)"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfOgreQuaternion()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::QuaternionTrait(m_value=5 3 1 9)") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::QuaternionTrait* primitive = dynamic_cast<Reflection::QuaternionTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getValue() == ::Ogre::Quaternion(5,3,1,9)) ;
+      }
+
+      void TestReflection::serialisationOfValueClass()
+      {
+        Reflection::ValueTrait trait ;
+        Reflection::Value value ;
+        value.m_value = 8 ;
+        trait.setValue(value) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=ProjetUnivers::Kernel::Test::Reflection::Value(m_value=8))"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfValueClass()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=ProjetUnivers::Kernel::Test::Reflection::Value(m_value=1))") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::ValueTrait* primitive = dynamic_cast<Reflection::ValueTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+
+        Reflection::Value value ;
+        value.m_value = 1 ;
+
+        CPPUNIT_ASSERT_EQUAL(value,primitive->getValue()) ;
+      }
+
+      void TestReflection::serialisationOfEnum()
+      {
+        Reflection::EnumTrait trait ;
+        trait.setValue(Reflection::EnumTrait::_Value1) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::EnumTrait(m_value=0)"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfEnum()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::EnumTrait(m_value=1)") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::EnumTrait* primitive = dynamic_cast<Reflection::EnumTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getValue() == Reflection::EnumTrait::_Value2) ;
+      }
+
+      void TestReflection::serialisationOfSet()
+      {
+        Reflection::SetTrait trait ;
+        std::set<int> value ;
+        value.insert(1) ;
+        value.insert(5) ;
+        trait.setValue(value) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=std::set(1,5))"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfSet()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=std::set(1,5))") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::SetTrait* primitive = dynamic_cast<Reflection::SetTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+
+        const std::set<int>& value = primitive->getValue() ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,value.size()) ;
+        CPPUNIT_ASSERT(value.find(1) != value.end()) ;
+        CPPUNIT_ASSERT(value.find(5) != value.end()) ;
+      }
+
     }
   }
 }

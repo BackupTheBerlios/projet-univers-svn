@@ -34,7 +34,7 @@ namespace ProjetUnivers
       {
       protected:
 
-      /// @name Tests methods
+      /// @name Serialisation/Deserialisation through TextSerialiser
       // @{
 
         void serialisationOfStringFloat() ;
@@ -48,6 +48,16 @@ namespace ProjetUnivers
         void deserialisationOfObjectReference() ;
         void serialisationOfBoolean() ;
         void deserialisationOfBoolean() ;
+        void serialisationOfOgreVector() ;
+        void deserialisationOfOgreVector() ;
+        void serialisationOfOgreQuaternion() ;
+        void deserialisationOfOgreQuaternion() ;
+        void serialisationOfValueClass() ;
+        void deserialisationOfValueClass() ;
+        void serialisationOfEnum() ;
+        void deserialisationOfEnum() ;
+        void serialisationOfSet() ;
+        void deserialisationOfSet() ;
 
       // @}
 
@@ -65,6 +75,16 @@ namespace ProjetUnivers
         CPPUNIT_TEST(deserialisationOfObjectReference) ;
         CPPUNIT_TEST(serialisationOfBoolean) ;
         CPPUNIT_TEST(deserialisationOfBoolean) ;
+        CPPUNIT_TEST(serialisationOfOgreVector) ;
+        CPPUNIT_TEST(deserialisationOfOgreVector) ;
+        CPPUNIT_TEST(serialisationOfOgreQuaternion) ;
+        CPPUNIT_TEST(deserialisationOfOgreQuaternion) ;
+        CPPUNIT_TEST(serialisationOfValueClass) ;
+        CPPUNIT_TEST(deserialisationOfValueClass) ;
+        CPPUNIT_TEST(serialisationOfEnum) ;
+        CPPUNIT_TEST(deserialisationOfEnum) ;
+//        CPPUNIT_TEST(serialisationOfSet) ;
+//        CPPUNIT_TEST(deserialisationOfSet) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

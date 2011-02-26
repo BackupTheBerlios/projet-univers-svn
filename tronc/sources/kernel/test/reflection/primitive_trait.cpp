@@ -68,6 +68,62 @@ namespace ProjetUnivers
           return m_value ;
         }
 
+        void Ogre3DTrait::setVector(const ::Ogre::Vector3& value)
+        {
+          m_value = value ;
+        }
+
+        const ::Ogre::Vector3& Ogre3DTrait::getVector() const
+        {
+          return m_value ;
+        }
+
+        void QuaternionTrait::setValue(const ::Ogre::Quaternion& value)
+        {
+          m_value = value ;
+        }
+
+        const ::Ogre::Quaternion& QuaternionTrait::getValue() const
+        {
+          return m_value ;
+        }
+
+        std::ostream& operator<<(std::ostream& out,const Value& value)
+        {
+          out << "Value(m_value=" << value.m_value << ")" ;
+          return out ;
+        }
+
+        void ValueTrait::setValue(const Value& value)
+        {
+          m_value = value ;
+        }
+
+        const Value& ValueTrait::getValue() const
+        {
+          return m_value ;
+        }
+
+        void EnumTrait::setValue(const Type& value)
+        {
+          m_value = value ;
+        }
+
+        const EnumTrait::Type& EnumTrait::getValue() const
+        {
+          return m_value ;
+        }
+
+        void SetTrait::setValue(const std::set<int>& value)
+        {
+          m_value = value ;
+        }
+
+        const std::set<int>& SetTrait::getValue() const
+        {
+          return m_value ;
+        }
+
       }
     }
   }

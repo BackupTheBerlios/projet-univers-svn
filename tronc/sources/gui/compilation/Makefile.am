@@ -74,4 +74,6 @@ $(SOURCES)/display/compilation/libdisplay.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/model/compilation/libmodel.la \
 libgui.la \
+$(librlog_LIBS) \
+$(CEGUI_OGRE_LIBS) \
 $(OIS_LIBS) 

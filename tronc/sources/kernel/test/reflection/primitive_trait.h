@@ -20,6 +20,8 @@
  ***************************************************************************/
 #pragma once
 
+#include <ostream>
+#include <OgreVector3.h>
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
 
@@ -72,6 +74,91 @@ namespace ProjetUnivers
         private:
 
           bool m_value ;
+        };
+
+        /// A testing trait
+        class Ogre3DTrait : public Trait
+        {
+        public:
+
+          void setVector(const ::Ogre::Vector3&) ;
+          const ::Ogre::Vector3& getVector() const ;
+
+        private:
+
+          ::Ogre::Vector3 m_value ;
+        };
+
+        /// A testing trait
+        class QuaternionTrait : public Trait
+        {
+        public:
+
+          void setValue(const ::Ogre::Quaternion&) ;
+          const ::Ogre::Quaternion& getValue() const ;
+
+        private:
+
+          ::Ogre::Quaternion m_value ;
+        };
+
+        class Value
+        {
+        public:
+
+          int m_value ;
+
+          bool operator==(const Value& value) const
+          {
+            return m_value == value.m_value ;
+          }
+        };
+
+        std::ostream& operator<<(std::ostream& out,const Value& value) ;
+
+        /// A testing trait
+        class ValueTrait : public Trait
+        {
+        public:
+
+          void setValue(const Value&) ;
+          const Value& getValue() const ;
+
+        private:
+
+          Value m_value ;
+        };
+
+        /// A testing trait
+        class EnumTrait : public Trait
+        {
+        public:
+
+          enum Type
+          {
+            _Value1,
+            _Value2
+          };
+
+          void setValue(const Type&) ;
+          const Type& getValue() const ;
+
+        private:
+
+          Type m_value ;
+        };
+
+        /// A testing trait
+        class SetTrait : public Trait
+        {
+        public:
+
+          void setValue(const std::set<int>&) ;
+          const std::set<int>& getValue() const ;
+
+        private:
+
+          std::set<int> m_value ;
         };
 
       }

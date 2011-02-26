@@ -71,6 +71,7 @@ played.reflect.cpp \
 player_configuration.reflect.cpp \
 player.reflect.cpp \
 plays.reflect.cpp \
+plays_in.reflect.cpp \
 positioned.reflect.cpp \
 position.reflect.cpp \
 selection.reflect.cpp \

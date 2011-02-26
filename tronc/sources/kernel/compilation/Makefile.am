@@ -158,6 +158,7 @@ check_PROGRAMS = $(TESTS)
 %.reflect.cpp : ../test/reflection/%.h
 	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
 
+
 test_kernel_SOURCES = \
 ../test/test_algorithm.cpp \
 ../test/test_command.cpp \
@@ -176,6 +177,7 @@ meta.reflect.cpp \
 ../test/test_reflection.cpp \
 ../test/test_relation.cpp \
 ../test/test_relation_view.cpp \
+../test/test_text_serialiser.cpp \
 ../test/test_trait.cpp \
 ../test/test_xml_reader.cpp \
 ../test/test_xml_writer.cpp \

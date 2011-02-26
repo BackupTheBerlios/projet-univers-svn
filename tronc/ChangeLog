@@ -1811,6 +1811,13 @@
 
 2011-02-17
 - input test is too often ko 
+
+2011-02-26
+#5146 Create base network system
+- serialization for ogre vector
+- serialization for quaternions 
+- serialization for value class
+- serialization for enums
     
 in commit
 --------
@@ -1823,29 +1830,26 @@ in progress
 @todo
 -----
 
---> we may then have several players pointing to the same model sub part as long 
-as only one is active  
-
-- serialization for ogre vector
-- serialization for quaternions 
-- serialization for enums
 - serialization for set
-- serialization for map
-- serialization for value class
+  aie, dur dur, reflex does not see std::set as a type of his own unless we 
+  use deep, but deep does not work with Trait.
+   
 - serialization for vector
 - serialization for list
-
-- the issue will be network serialization to an object not synchronized
-
-- add a type check for supported basic types : display thoses primitives traits
-  that contains an unsupported type 
+- serialization for map
 
 - rationalisation of model regarding network : 
   - remove of Kernel::Model in Computer, change ComputerData ? needed ?
   - change HeadUpDisplay
   - better use of relation
-  - allow several players
-  - change Player --> PlayerConfiguration 
+
+--> we may then have several players pointing to the same model sub part as long 
+as only one is active (/!\ need test)  
+
+- add a type check for supported basic types : display thoses primitives traits
+  that contains an unsupported type 
+
+- the issue will be network serialization to an object not synchronized
 
 #5146 Create base network system
 - gui to host, gui to connect
@@ -1858,7 +1862,7 @@ as only one is active
 - meta model synchronisation (share the same ids for meta objects for compact 
   messages)  
   - specialised serializer that will also check for version compatibility
-
+- position prevision is a new controller set  
 
 * sound still has error logged, they seem no critical but should investigate
   

@@ -62,6 +62,39 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(type_recursively_positioned.HasBase(type_deduced_trait)) ;
       }
 
+      void TestReflection::primitiveTraits()
+      {
+        Reflex::Type trait_type(Reflex::Type::ByName("ProjetUnivers::Kernel::Trait")) ;
+        Reflex::Type relation_type(Reflex::Type::ByName("ProjetUnivers::Kernel::Relation")) ;
+
+        bool has_sub_types = false ;
+
+        // all types
+        for(Reflex::Type_Iterator type = Reflex::Type::Type_Begin() ;
+            type != Reflex::Type::Type_End() ;
+            ++type)
+        {
+          if (type->IsClass())
+          {
+            Reflex::Type Class = *type ;
+            // only primitive traits or primitive relations
+            if (Class.HasBase(trait_type) || Class.HasBase(relation_type))
+            {
+              std::cout << Class.Name(Reflex::SCOPED) << std::endl ;
+
+              for(Reflex::Member_Iterator member = Class.Member_Begin() ; member != Class.Member_End() ; ++member)
+              {
+                std::cout << member->Name(Reflex::SCOPED) << std::endl ;
+              }
+
+              has_sub_types = true ;
+            }
+          }
+        }
+
+        CPPUNIT_ASSERT(has_sub_types) ;
+      }
+
 
     }
   }

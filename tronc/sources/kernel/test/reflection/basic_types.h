@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2011 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,43 +19,21 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #pragma once
-#include <cppunit/extensions/HelperMacros.h>
+
+#include <set>
 
 namespace ProjetUnivers
 {
-  namespace Model
+  namespace Kernel
   {
     namespace Test
     {
-
-      class TestReflection : public CppUnit::TestFixture
+      namespace Meta
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
-
-        void spike() ;
-        void primitiveTraits() ;
-
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
-
-        CPPUNIT_TEST_SUITE(TestReflection) ;
-
-        CPPUNIT_TEST(spike) ;
-        //CPPUNIT_TEST(primitiveTraits) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-      };
-
+        class Temp : public std::set<bool>
+        {};
+      }
     }
   }
 }
+

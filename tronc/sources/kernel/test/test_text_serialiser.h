@@ -20,9 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <Reflex/Type.h>
-#include <Reflex/Object.h>
-#include <kernel/serialiser.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
 {
@@ -30,53 +28,36 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      class TestTextSerialiser ;
+
+      /// Tests for TextSerialiser
+      class TestTextSerialiser : public CppUnit::TestFixture
+      {
+      protected:
+
+      /// @name Tests methods
+      // @{
+
+        void parseMembers() ;
+        void parseRecursiveMember() ;
+        void parseRecursiveMemberWithMultipleMembers() ;
+        void parseRecursiveMemberAsLastElement() ;
+        void deserialiseValue() ;
+
+      // @}
+
+
+        CPPUNIT_TEST_SUITE(TestTextSerialiser) ;
+
+        CPPUNIT_TEST(parseMembers) ;
+        CPPUNIT_TEST(parseRecursiveMember) ;
+        CPPUNIT_TEST(parseRecursiveMemberWithMultipleMembers) ;
+        CPPUNIT_TEST(parseRecursiveMemberAsLastElement) ;
+        CPPUNIT_TEST(deserialiseValue) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+
+      };
     }
-
-    /// Serialise an object
-    class TextSerialiser : public Serialiser
-    {
-    public:
-
-      TextSerialiser(ObjectMapper* mapper = NULL) ;
-
-      /// Transform a trait to a string
-      virtual std::string serialiseTrait(const Trait&) ;
-
-      /// Transform a string to a trait
-      virtual Trait* deserialiseTrait(const std::string&,Model* model) ;
-
-      /// Deserialize a trait given an existing one
-      virtual void deserialiseTrait(const std::string&,Trait*) ;
-
-      /// Serialize a relation
-      virtual std::string serialiseRelation(const Relation&) ;
-
-      /// Deserialize a relation
-      virtual void addRelation(const std::string&,Model*) ;
-
-      /// Deserialize a relation
-      virtual void removeRelation(const std::string&,Model*) ;
-
-    private:
-
-      std::string serialiseObject(const Reflex::Type&,Reflex::Object object) ;
-
-      /// Fill a given trait with values.
-      void fillTrait(const std::string&,Reflex::Object,const Reflex::Type&,Model* model) ;
-
-      /// Convert generic value to string.
-      std::string valueToString(const Reflex::Object& value) ;
-
-      /// Affect a serialised value to a member.
-      void setValue(Reflex::Object object,const Reflex::Member& member,
-                    const std::string& value,Model* model) ;
-
-      std::list<std::pair<std::string,std::string> > parseValues(const std::string&) const ;
-
-      friend class ::ProjetUnivers::Kernel::Test::TestTextSerialiser ;
-
-    };
   }
 }
-

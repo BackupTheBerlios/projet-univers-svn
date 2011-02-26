@@ -81,5 +81,6 @@ $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
 libinput.la \
 $(SOURCES)/model/compilation/libmodel.la \
+$(librlog_LIBS) \
 $(OIS_LIBS) 
 

@@ -142,7 +142,10 @@ Reflex::DataMember::Set(const Object& instance,
    mem = (char*)mem + Offset();
 
    if (TypeOf().IsClass() ) {
-      // Should use the asigment operator if exists (FIX-ME)
+      // Should use the asigment operator if exists (FIXME)
+//      Type type = TypeOf() ;
+//      Member assignement = type.MemberByName("operator=") ;
+//      assignement. Get(instance)
       memcpy( mem, value, TypeOf().SizeOf());
    } else {
       memcpy( mem, value, TypeOf().SizeOf() );
