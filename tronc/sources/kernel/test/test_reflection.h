@@ -58,6 +58,13 @@ namespace ProjetUnivers
         void deserialisationOfEnum() ;
         void serialisationOfSet() ;
         void deserialisationOfSet() ;
+        void serialisationOfVector() ;
+        void deserialisationOfVector() ;
+        void serialisationOfList() ;
+        void deserialisationOfList() ;
+        void serialisationOfMap() ;
+        void deserialisationOfMap() ;
+
 
       // @}
 
@@ -83,8 +90,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(deserialisationOfValueClass) ;
         CPPUNIT_TEST(serialisationOfEnum) ;
         CPPUNIT_TEST(deserialisationOfEnum) ;
-//        CPPUNIT_TEST(serialisationOfSet) ;
-//        CPPUNIT_TEST(deserialisationOfSet) ;
+        CPPUNIT_TEST(serialisationOfSet) ;
+        CPPUNIT_TEST(deserialisationOfSet) ;
+        CPPUNIT_TEST(serialisationOfVector) ;
+        CPPUNIT_TEST(deserialisationOfVector) ;
+        CPPUNIT_TEST(serialisationOfList) ;
+        CPPUNIT_TEST(deserialisationOfList) ;
+        CPPUNIT_TEST(serialisationOfMap) ;
+        CPPUNIT_TEST(deserialisationOfMap) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

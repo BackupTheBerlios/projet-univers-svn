@@ -68,11 +68,13 @@ namespace ProjetUnivers
       /// Convert generic value to string.
       std::string valueToString(const Reflex::Object& value) ;
 
-      /// Affect a serialised value to a member.
-      void setValue(Reflex::Object object,const Reflex::Member& member,
-                    const std::string& value,Model* model) ;
+      /// Affect a serialised value to an object.
+      void setValue(Reflex::Object object,const std::string& value,Model* model) ;
 
+      /// Parse key=value list.
       std::list<std::pair<std::string,std::string> > parseValues(const std::string&) const ;
+      std::list<std::string> parseListValues(const std::string&) const ;
+      std::map<std::string,std::string> parseMapValues(const std::string&) const ;
 
       friend class ::ProjetUnivers::Kernel::Test::TestTextSerialiser ;
 

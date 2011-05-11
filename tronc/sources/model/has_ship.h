@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2011 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,27 +20,16 @@
  ***************************************************************************/
 #pragma once
 
-#include <set>
+#include <kernel/relation.h>
 
 namespace ProjetUnivers
 {
-  namespace Kernel
+  namespace Model
   {
-    namespace Test
-    {
-      namespace Meta
-      {
 
-        class Temp
-        {
-        public:
+    /// Indicate that a group has a ship
+    class HasShip : public Kernel::Relation
+    {};
 
-          std::set<int> member ;
-
-        };
-
-      }
-    }
   }
 }
-

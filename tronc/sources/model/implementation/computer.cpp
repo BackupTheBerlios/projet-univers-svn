@@ -66,9 +66,9 @@ namespace ProjetUnivers
       std::set<Kernel::Object*> result ;
       std::set<Kernel::Object*> detectables(getObject()->getRoot()->getChildrenObjects<Implementation::Detectable>()) ;
 
-      std::set<Kernel::Object*> detectors(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
+      std::set<Kernel::ObjectReference> detectors(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
 
-      for(std::set<Kernel::Object*>::const_iterator detector = detectors.begin() ; detector != detectors.end() ; ++detector)
+      for(std::set<Kernel::ObjectReference>::const_iterator detector = detectors.begin() ; detector != detectors.end() ; ++detector)
       {
         Detector* local = (*detector)->getTrait<Detector>() ;
         if (local)

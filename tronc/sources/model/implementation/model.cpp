@@ -83,6 +83,7 @@
 
 #include <model/implementation/model_internal.h>
 #include <model/model.h>
+#include <model/plays.h>
 
 
 using namespace Ogre ;
@@ -269,6 +270,55 @@ namespace ProjetUnivers
         fg2->getTrait<FlyingGroup>()->setInitialNumberOfShips(8) ;
         fg2->getTrait<FlyingGroup>()->setNumberOfSpawn(2) ;
         fg2->getTrait<FlyingGroup>()->setShipName("default_ship") ;
+      }
+      else if (name == "test")
+      {
+        // create a scene with ships fighting
+        const int number_of_ships = (int)Kernel::Parameters::getValue<float>("Test","numberOfShips",5) ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::State()) ;
+        universe->addTrait(new Model::Active()) ;
+        universe->addTrait(new Universe()) ;
+        universe->addTrait(new Positioned()) ;
+        universe->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new StellarSystem()) ;
+        system->addTrait(new Positioned()) ;
+
+        int circle_radius = 100 * number_of_ships ;
+
+        for(int i = 1 ; i <= number_of_ships ; ++i)
+        {
+          Kernel::Object* team = universe->createObject() ;
+          team->addTrait(new Team("team"+Kernel::toString(i))) ;
+          Kernel::Object* ship = loadShip("default_ship",system) ;
+          ship->addTrait(new Transponder(team)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+
+          // Move ship to other place
+          Positioned* positioned = ship->getTrait<Positioned>() ;
+
+          Ogre::Quaternion orientation(Ogre::Degree(360/number_of_ships)*(i-1),Ogre::Vector3::UNIT_Z) ;
+
+          Ogre::Vector3 position(orientation*Ogre::Vector3::UNIT_X*circle_radius) ;
+
+          positioned->setPosition(Position::Meter(position.x,position.y,-position.z)) ;
+        }
+
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->getTrait<Model::Observer>()->setFieldOfView(::Ogre::Degree(70)) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,1.1*circle_radius))) ;
+        observer->addTrait(new Model::Oriented()) ;
+        observer->addTrait(new Model::State()) ;
+        observer->addTrait(new Model::Active()) ;
+        Kernel::Link<Plays>(observer,observer) ;
+
+        observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
       }
       else
       {

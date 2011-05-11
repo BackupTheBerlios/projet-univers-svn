@@ -165,6 +165,7 @@ namespace ProjetUnivers
             pilot->addTrait(new Kernel::CommandDelegator()) ;
             pilot->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
+            // @todo replace with addrelation
             group->addShip(ship) ;
           }
 

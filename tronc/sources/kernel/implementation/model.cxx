@@ -141,13 +141,13 @@ namespace ProjetUnivers
       public:
 
         /// Implementation of getLinked
-        static std::set<Object*> get(Object* object)
+        static std::set<ObjectReference> get(Object* object)
         {
           return object->getModel()->getRelations(getClassTypeIdentifier(Relation),object) ;
         }
 
         /// Implementation of getUniqueLinked
-        static Object* getUnique(Object* object)
+        static ObjectReference getUnique(Object* object)
         {
           return object->getModel()->getUniqueRelated(getClassTypeIdentifier(Relation),object) ;
         }
@@ -155,7 +155,7 @@ namespace ProjetUnivers
         /// Implementation of areLinked
         static bool areLinked(Object* object1,Object* object2)
         {
-          std::set<Object*> linked(get(object1)) ;
+          std::set<ObjectReference> linked(get(object1)) ;
           return linked.find(object2) != linked.end() ;
         }
 
@@ -168,13 +168,13 @@ namespace ProjetUnivers
       public:
 
         /// Implementation of getLinked
-        static std::set<Object*> get(Object* object)
+        static std::set<ObjectReference> get(Object* object)
         {
           return object->getModel()->getInverseRelations(getClassTypeIdentifier(Relation),object) ;
         }
 
         /// Implementation of getUniqueLinked
-        static Object* getUnique(Object* object)
+        static ObjectReference getUnique(Object* object)
         {
           return object->getModel()->getUniqueInverseRelated(getClassTypeIdentifier(Relation),object) ;
         }
@@ -190,7 +190,7 @@ namespace ProjetUnivers
     }
 
     template <class _Relation>
-    std::set<Object*> Relation::getLinked(Object* object)
+    std::set<ObjectReference> Relation::getLinked(Object* object)
     {
       return Implementation::GetLink<_Relation>::get(object) ;
     }

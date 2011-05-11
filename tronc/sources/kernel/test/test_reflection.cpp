@@ -377,7 +377,7 @@ namespace ProjetUnivers
         TextSerialiser serialiser(&mapper) ;
 
         CPPUNIT_ASSERT_EQUAL(
-            std::string("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=std::set(1,5))"),
+            std::string("ProjetUnivers::Kernel::Test::Reflection::SetTrait(m_value=std::set(1,5))"),
             serialiser.serialiseTrait(trait)) ;
       }
 
@@ -388,7 +388,7 @@ namespace ProjetUnivers
         TestObjectMapper mapper ;
         TextSerialiser serialiser(&mapper) ;
 
-        std::string text("ProjetUnivers::Kernel::Test::Reflection::ValueTrait(m_value=std::set(1,5))") ;
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::SetTrait(m_value=std::set(1,5))") ;
 
         Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
 
@@ -401,6 +401,130 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(value.find(1) != value.end()) ;
         CPPUNIT_ASSERT(value.find(5) != value.end()) ;
       }
+
+      void TestReflection::serialisationOfVector()
+      {
+        Reflection::VectorTrait trait ;
+        std::vector<int> value ;
+        value.push_back(1) ;
+        value.push_back(5) ;
+        trait.setValue(value) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::VectorTrait(m_value=std::vector(1,5))"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfVector()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::VectorTrait(m_value=std::vector(1,5))") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::VectorTrait* primitive = dynamic_cast<Reflection::VectorTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+
+        const std::vector<int>& value = primitive->getValue() ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,value.size()) ;
+
+        std::vector<int>::const_iterator element = value.begin() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,*element) ;
+        ++element ;
+        CPPUNIT_ASSERT_EQUAL(5,*element) ;
+      }
+
+      void TestReflection::serialisationOfList()
+      {
+        Reflection::ListTrait trait ;
+        std::list<int> value ;
+        value.push_back(1) ;
+        value.push_back(5) ;
+        trait.setValue(value) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::ListTrait(m_value=std::list(1,5))"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfList()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::ListTrait(m_value=std::list(1,5))") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::ListTrait* primitive = dynamic_cast<Reflection::ListTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+
+        const std::list<int>& value = primitive->getValue() ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,value.size()) ;
+
+        std::list<int>::const_iterator element = value.begin() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,*element) ;
+        ++element ;
+        CPPUNIT_ASSERT_EQUAL(5,*element) ;
+      }
+
+      void TestReflection::serialisationOfMap()
+      {
+        Reflection::MapTrait trait ;
+        std::map<int,float> value ;
+        value[1] = 0.8 ;
+        value[-1] = 10 ;
+        trait.setValue(value) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            // stored in correct order
+            std::string("ProjetUnivers::Kernel::Test::Reflection::MapTrait(m_value=std::map(-1,10,1,0.8))"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfMap()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::MapTrait(m_value=std::map(1,0.8,-1,10))") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::MapTrait* primitive = dynamic_cast<Reflection::MapTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+
+        const std::map<int,float>& value = primitive->getValue() ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,value.size()) ;
+
+        std::map<int,float>::const_iterator element = value.begin() ;
+
+        CPPUNIT_ASSERT(value.find(1) != value.end()) ;
+        CPPUNIT_ASSERT_EQUAL(0.8f,value.find(1)->second) ;
+
+        CPPUNIT_ASSERT(value.find(-1) != value.end()) ;
+        CPPUNIT_ASSERT_EQUAL(10.0f,value.find(-1)->second) ;
+      }
+
 
     }
   }

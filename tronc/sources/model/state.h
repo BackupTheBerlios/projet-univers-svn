@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_WITH_TRANSITIONS_H_
-#define PU_MODEL_WITH_TRANSITIONS_H_
+#pragma once
 
 #include <list>
 #include <map>
@@ -27,8 +26,10 @@
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     class Active ;
     
@@ -91,7 +92,8 @@ namespace ProjetUnivers {
       
       /// Stack of activated children
       /*!
-        @invariant Every element has trait Active. 
+        @invariant Every element has trait Active.
+        @todo remove
       */
       std::list<Kernel::ObjectReference> m_activated_children ;
       
@@ -101,5 +103,3 @@ namespace ProjetUnivers {
     
   }
 }
-
-#endif /*PU_MODEL_WITH_TRANSITIONS_H_*/

@@ -430,7 +430,7 @@ namespace ProjetUnivers
       return *m_children.begin() ;
     }
 
-    std::set<Object*> WithRelationFormula::getRelated(Object* object) const
+    std::set<ObjectReference> WithRelationFormula::getRelated(Object* object) const
     {
       Model* model = object->getModel() ;
       if (m_is_inversed)
@@ -439,7 +439,7 @@ namespace ProjetUnivers
         return model->getRelations(m_relation,object) ;
     }
 
-    std::set<Object*> WithRelationFormula::getInverseRelated(Object* object) const
+    std::set<ObjectReference> WithRelationFormula::getInverseRelated(Object* object) const
     {
       Model* model = object->getModel() ;
       if (m_is_inversed)
@@ -907,10 +907,10 @@ namespace ProjetUnivers
     void IsRelatedFormula::eval(Object* object)
     {
       Formula* formula = *m_children.begin() ;
-      std::set<Object*> related(getRelated(object)) ;
+      std::set<ObjectReference> related(getRelated(object)) ;
 
       Implementation::Number number_of_true_related = 0 ;
-      for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
+      for(std::set<ObjectReference>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
         if (formula->isValid(*related_object))
           ++number_of_true_related ;
@@ -923,9 +923,9 @@ namespace ProjetUnivers
     void IsOnlyRelatedFormula::eval(Object* object)
     {
       Formula* formula = *m_children.begin() ;
-      std::set<Object*> related(getRelated(object)) ;
+      std::set<ObjectReference> related(getRelated(object)) ;
       Implementation::Number number_of_true_related = 0 ;
-      for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
+      for(std::set<ObjectReference>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
         if (formula->isValid(*related_object))
           ++number_of_true_related ;
@@ -1925,8 +1925,8 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onAddChildFormulaTrue(Object* object)
     {
-      std::set<Object*> objects(getInverseRelated(object)) ;
-      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      std::set<ObjectReference> objects(getInverseRelated(object)) ;
+      for(std::set<ObjectReference>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         Implementation::Number true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
         (*related)->setNumberOfTrueChildFormulae(this,true_related+1) ;
@@ -1941,8 +1941,8 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onAddChildFormulaFalse(Object* object)
     {
-      std::set<Object*> objects(getInverseRelated(object)) ;
-      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      std::set<ObjectReference> objects(getInverseRelated(object)) ;
+      for(std::set<ObjectReference>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         Implementation::Number true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
         (*related)->setNumberOfTrueChildFormulae(this,true_related-1) ;
@@ -1994,8 +1994,8 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onChildFormulaUpdated(Object* object)
     {
-      std::set<Object*> objects(getInverseRelated(object)) ;
-      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      std::set<ObjectReference> objects(getInverseRelated(object)) ;
+      for(std::set<ObjectReference>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         update(*related) ;
       }
@@ -2121,8 +2121,8 @@ namespace ProjetUnivers
         So we limit ourselves to the object pairs taken from existing links
       */
 
-      std::set<Object*> objects(Relation::_getLinked(object)) ;
-      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      std::set<ObjectReference> objects(Relation::_getLinked(object)) ;
+      for(std::set<ObjectReference>::iterator to = objects.begin() ; to != objects.end() ; ++to)
       {
         becomeTrue(ObjectPair(object,*to)) ;
       }
@@ -2131,8 +2131,8 @@ namespace ProjetUnivers
     void IsFromFormula::onAddChildFormulaFalse(Object* object)
     {
       // all links going from object became false
-      std::set<Object*> objects(Relation::_getLinked(object)) ;
-      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      std::set<ObjectReference> objects(Relation::_getLinked(object)) ;
+      for(std::set<ObjectReference>::iterator to = objects.begin() ; to != objects.end() ; ++to)
       {
         becomeFalse(ObjectPair(object,*to)) ;
       }
@@ -2141,8 +2141,8 @@ namespace ProjetUnivers
     void IsToFormula::onAddChildFormulaTrue(Object* object)
     {
       // all links going to object became true
-      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
-      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      std::set<ObjectReference> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<ObjectReference>::iterator from = objects.begin() ; from != objects.end() ; ++from)
       {
         becomeTrue(ObjectPair(*from,object)) ;
       }
@@ -2151,8 +2151,8 @@ namespace ProjetUnivers
     void IsToFormula::onAddChildFormulaFalse(Object* object)
     {
       // all links going to object became false
-      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
-      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      std::set<ObjectReference> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<ObjectReference>::iterator from = objects.begin() ; from != objects.end() ; ++from)
       {
         becomeFalse(ObjectPair(*from,object)) ;
       }
@@ -2284,12 +2284,12 @@ namespace ProjetUnivers
       Object* object = element.getObject() ;
 
       Formula* formula = *m_children.begin() ;
-      std::set<Object*> objects(getRelated(object)) ;
-      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      std::set<ObjectReference> objects(getRelated(object)) ;
+      for(std::set<ObjectReference>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         if (formula->isValid(*related))
         {
-          std::set<Notifiable*> temp(formula->getUpdaterNotifiables(*related)) ;
+          std::set<Notifiable*> temp(formula->getUpdaterNotifiables((Object*)*related)) ;
           result.insert(temp.begin(),temp.end()) ;
         }
       }
@@ -2454,8 +2454,8 @@ namespace ProjetUnivers
 
     void IsFromFormula::onChildFormulaUpdated(Object* object)
     {
-      std::set<Object*> objects(Relation::_getLinked(object)) ;
-      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      std::set<ObjectReference> objects(Relation::_getLinked(object)) ;
+      for(std::set<ObjectReference>::iterator to = objects.begin() ; to != objects.end() ; ++to)
       {
         update(ObjectPair(object,*to)) ;
       }
@@ -2464,8 +2464,8 @@ namespace ProjetUnivers
     void IsToFormula::onChildFormulaUpdated(Object* object)
     {
       // all links going to object must be updated
-      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
-      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      std::set<ObjectReference> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<ObjectReference>::iterator from = objects.begin() ; from != objects.end() ; ++from)
       {
         update(ObjectPair(*from,object)) ;
       }

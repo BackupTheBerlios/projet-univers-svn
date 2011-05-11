@@ -42,6 +42,10 @@ namespace ProjetUnivers
         void parseRecursiveMemberWithMultipleMembers() ;
         void parseRecursiveMemberAsLastElement() ;
         void deserialiseValue() ;
+        void parseListValues() ;
+        void parseListValuesWithStructMember() ;
+        void parseListValuesWithStructMemberAtEnd() ;
+        void parseMapValues() ;
 
       // @}
 
@@ -53,6 +57,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(parseRecursiveMemberWithMultipleMembers) ;
         CPPUNIT_TEST(parseRecursiveMemberAsLastElement) ;
         CPPUNIT_TEST(deserialiseValue) ;
+        CPPUNIT_TEST(parseListValues) ;
+        CPPUNIT_TEST(parseListValuesWithStructMember) ;
+        CPPUNIT_TEST(parseListValuesWithStructMemberAtEnd) ;
+        CPPUNIT_TEST(parseMapValues) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

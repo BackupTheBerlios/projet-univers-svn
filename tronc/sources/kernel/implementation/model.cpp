@@ -696,9 +696,9 @@ namespace ProjetUnivers
       }
     }
 
-    std::set<Object*> Model::getRelations(const TypeIdentifier& type,Object* object) const
+    std::set<ObjectReference> Model::getRelations(const TypeIdentifier& type,Object* object) const
     {
-      std::set<Object*> result ;
+      std::set<ObjectReference> result ;
 
       const std::set<TypeIdentifier>& types = type.subTypes() ;
 
@@ -716,7 +716,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    Object* Model::getUniqueRelated(const TypeIdentifier& type,Object* object) const
+    ObjectReference Model::getUniqueRelated(const TypeIdentifier& type,Object* object) const
     {
       Object* result = NULL ;
       const std::set<TypeIdentifier>& types = type.subTypes() ;
@@ -736,9 +736,9 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Object*> Model::getRelations(Object* object) const
+    std::set<ObjectReference> Model::getRelations(Object* object) const
     {
-      std::set<Object*> result ;
+      std::set<ObjectReference> result ;
 
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
@@ -749,9 +749,9 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Object*> Model::getInverseRelations(const TypeIdentifier& type,Object* object) const
+    std::set<ObjectReference> Model::getInverseRelations(const TypeIdentifier& type,Object* object) const
     {
-      std::set<Object*> result ;
+      std::set<ObjectReference> result ;
       const std::set<TypeIdentifier>& types = type.subTypes() ;
 
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
@@ -763,7 +763,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    Object* Model::getUniqueInverseRelated(const TypeIdentifier& type,Object* object) const
+    ObjectReference Model::getUniqueInverseRelated(const TypeIdentifier& type,Object* object) const
     {
       Object* result = NULL ;
       const std::set<TypeIdentifier>& types = type.subTypes() ;
@@ -783,9 +783,9 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Object*> Model::getInverseRelations(Object* object) const
+    std::set<ObjectReference> Model::getInverseRelations(Object* object) const
     {
-      std::set<Object*> result ;
+      std::set<ObjectReference> result ;
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
         if (relation->getObjectTo() == object)

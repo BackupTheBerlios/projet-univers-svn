@@ -124,6 +124,36 @@ namespace ProjetUnivers
           return m_value ;
         }
 
+        void VectorTrait::setValue(const std::vector<int>& value)
+        {
+          m_value = value ;
+        }
+
+        const std::vector<int>& VectorTrait::getValue() const
+        {
+          return m_value ;
+        }
+
+        void ListTrait::setValue(const std::list<int>& value)
+        {
+          m_value = value ;
+        }
+
+        const std::list<int>& ListTrait::getValue() const
+        {
+          return m_value ;
+        }
+
+        void MapTrait::setValue(const std::map<int,float>& value)
+        {
+          m_value = value ;
+        }
+
+        const std::map<int,float>& MapTrait::getValue() const
+        {
+          return m_value ;
+        }
+
       }
     }
   }

@@ -738,8 +738,8 @@ namespace ProjetUnivers
       virtual void onAddTrueRelated(Object* from,Object* new_to) = 0 ;
       virtual void onAddFalseRelated(Object* from,Object* new_to) = 0 ;
 
-      std::set<Object*> getRelated(Object*) const ;
-      std::set<Object*> getInverseRelated(Object*) const ;
+      std::set<ObjectReference> getRelated(Object*) const ;
+      std::set<ObjectReference> getInverseRelated(Object*) const ;
 
       Object* getObjectFrom(const Relation&) const ;
       Object* getObjectTo(const Relation&) const ;

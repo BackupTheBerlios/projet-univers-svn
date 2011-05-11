@@ -1818,6 +1818,13 @@
 - serialization for quaternions 
 - serialization for value class
 - serialization for enums
+
+2011-05-11
+#5146 Create base network system
+- serialization for set
+- serialization for vector
+- serialization for list
+- serialization for map
     
 in commit
 --------
@@ -1830,26 +1837,18 @@ in progress
 @todo
 -----
 
-- serialization for set
-  aie, dur dur, reflex does not see std::set as a type of his own unless we 
-  use deep, but deep does not work with Trait.
-   
-- serialization for vector
-- serialization for list
-- serialization for map
+#5146 Create base network system : rationalisation of model regarding network 
+- better use of relation, the ships of a flying group
 
-- rationalisation of model regarding network : 
-  - remove of Kernel::Model in Computer, change ComputerData ? needed ?
-  - change HeadUpDisplay
-  - better use of relation
+- remove of Kernel::Model in Computer, change ComputerData ? needed ?
+- change HeadUpDisplay
 
 --> we may then have several players pointing to the same model sub part as long 
 as only one is active (/!\ need test)  
 
 - add a type check for supported basic types : display thoses primitives traits
-  that contains an unsupported type 
-
-- the issue will be network serialization to an object not synchronized
+  that contains an unsupported type, to break build when a primitive type is 
+  not supported 
 
 #5146 Create base network system
 - gui to host, gui to connect

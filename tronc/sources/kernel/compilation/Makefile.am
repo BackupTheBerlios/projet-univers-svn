@@ -155,9 +155,8 @@ noinst_PROGRAMS = $(TESTS)
 # launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
-%.reflect.cpp : ../test/reflection/%.h
-	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
-
+%.reflect.cpp : ../test/reflection/%.h reflex_selection.xml
+	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ -s reflex_selection.xml --comments -I$(SOURCES) $(PU_CFLAGS) ;
 
 test_kernel_SOURCES = \
 ../test/test_algorithm.cpp \

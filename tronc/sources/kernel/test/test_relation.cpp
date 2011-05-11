@@ -51,7 +51,7 @@ namespace ProjetUnivers
         Object* o2 = model->createObject() ;
 
         Link<Selection>(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 1) ;
       }
@@ -68,7 +68,7 @@ namespace ProjetUnivers
         Link<Selection>(o1,o4) ;
         Link<Selection>(o3,o4) ;
 
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
         CPPUNIT_ASSERT(related.find(o4) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 2) ;
@@ -83,7 +83,7 @@ namespace ProjetUnivers
         Link<Selection>(o1,o2) ;
 
         UnLink<Selection>(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
@@ -95,7 +95,7 @@ namespace ProjetUnivers
 
         Link<Selection>(o1,o2) ;
         Link<Selection>(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 1) ;
       }
@@ -108,7 +108,7 @@ namespace ProjetUnivers
 
         UnLink<Selection>(o1,o2) ;
 
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
@@ -122,7 +122,7 @@ namespace ProjetUnivers
 
         o2->destroyObject() ;
 
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
@@ -139,7 +139,7 @@ namespace ProjetUnivers
 
         model->endTransaction() ;
 
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
@@ -157,7 +157,7 @@ namespace ProjetUnivers
 
         model->endTransaction() ;
 
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o1)) ;
         CPPUNIT_ASSERT(related.size() == 0) ;
       }
 
@@ -168,7 +168,7 @@ namespace ProjetUnivers
         Object* o2 = model->createObject() ;
 
         Link<Selection>(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Inverse<Selection> >(o2)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Inverse<Selection> >(o2)) ;
         CPPUNIT_ASSERT(related.find(o1) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 1) ;
       }
@@ -180,7 +180,7 @@ namespace ProjetUnivers
         Object* o2 = model->createObject() ;
 
         Link<Inverse<Selection> >(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Selection>(o2)) ;
+        std::set<ObjectReference> related(Relation::getLinked<Selection>(o2)) ;
         CPPUNIT_ASSERT(related.find(o1) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 1) ;
       }
@@ -318,7 +318,7 @@ namespace ProjetUnivers
 
         Link<Selection>(o1,o2) ;
 
-        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<DeducedSelection>(o1)) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
@@ -337,7 +337,7 @@ namespace ProjetUnivers
 
         o2->addTrait(new T2()) ;
 
-        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<DeducedSelection>(o1)) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
       }
@@ -352,7 +352,7 @@ namespace ProjetUnivers
         o1->addTrait(new T1()) ;
         o2->addTrait(new T2()) ;
 
-        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<DeducedSelection>(o1)) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
 
@@ -372,7 +372,7 @@ namespace ProjetUnivers
         o1->addTrait(new T1()) ;
         o2->addTrait(new T2()) ;
 
-        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<DeducedSelection>(o1)) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
         CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
 
@@ -402,7 +402,7 @@ namespace ProjetUnivers
 
         Link<OtherSelection>(o1,o2) ;
 
-        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        std::set<ObjectReference> related(Relation::getLinked<DeducedSelection>(o1)) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)0,related.size()) ;
       }

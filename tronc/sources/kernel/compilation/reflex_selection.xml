@@ -1,0 +1,25 @@
+<lcgdict>
+  <selection>
+    <class pattern="ProjetUnivers::Kernel::Test::*"/>
+    <class pattern="std::set<*>"/>
+    <class pattern="std::set<*>"/>
+    <class pattern="std::vector<*>"/>
+    <class pattern="std::list<*>"/>
+    <class pattern="std::map<*>"/>
+    <class pattern="std::pair<*>"/>
+  </selection>
+  <exclusion> 
+    <class name="ProjetUnivers::Kernel::Trait"/>
+    <class name="ProjetUnivers::Kernel::Relation"/>
+    <class name="ProjetUnivers::Kernel::BaseTraitView"/>
+    <class pattern="ProjetUnivers::Kernel::Implementation::*"/>
+    <class pattern="std::_*"/>
+    <class pattern="_Rb_tree<*>"/>
+    <class pattern="boost::*"/>
+    <class pattern="std::list<ProjetUnivers::Kernel::Implementation::*>"/>
+    <class pattern="std::map<ProjetUnivers::Kernel::Relation*>"/>
+    <class pattern="std::pair<*ProjetUnivers::Kernel::Relation*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::Relation>"/>
+  </exclusion> 
+</lcgdict>
+          

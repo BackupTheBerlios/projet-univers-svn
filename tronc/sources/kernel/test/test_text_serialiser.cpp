@@ -129,6 +129,74 @@ namespace ProjetUnivers
         value_type.Deallocate(memory) ;
       }
 
+      void TestTextSerialiser::parseListValues()
+      {
+        TextSerialiser serialiser ;
+
+        std::list<std::string> result = serialiser.parseListValues("std::set(1.8,1)") ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,result.size()) ;
+        std::list<std::string>::iterator member = result.begin() ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("1.8"),*member) ;
+
+        ++member ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("1"),*member) ;
+      }
+
+      void TestTextSerialiser::parseListValuesWithStructMember()
+      {
+        TextSerialiser serialiser ;
+
+        std::list<std::string> result = serialiser.parseListValues("std::set(T(m=1.8),1)") ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,result.size()) ;
+        std::list<std::string>::iterator member = result.begin() ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("T(m=1.8)"),*member) ;
+
+        ++member ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("1"),*member) ;
+      }
+
+      void TestTextSerialiser::parseListValuesWithStructMemberAtEnd()
+      {
+        TextSerialiser serialiser ;
+
+        std::list<std::string> result = serialiser.parseListValues("std::set(1,T(m=1.8))") ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,result.size()) ;
+        std::list<std::string>::iterator member = result.begin() ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("1"),*member) ;
+
+        ++member ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("T(m=1.8)"),*member) ;
+      }
+
+
+      void TestTextSerialiser::parseMapValues()
+      {
+        TextSerialiser serialiser ;
+
+        std::map<std::string,std::string> result = serialiser.parseMapValues("std::map(1,1.8,-1,9)") ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,result.size()) ;
+
+        std::map<std::string,std::string>::iterator member = result.begin() ;
+
+        // maps are stored in 'correct' order
+        CPPUNIT_ASSERT_EQUAL(std::string("-1"),member->first) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("9"),member->second) ;
+
+        ++member ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("1"),member->first) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("1.8"),member->second) ;
+      }
 
     }
   }

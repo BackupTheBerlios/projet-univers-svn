@@ -79,7 +79,7 @@ namespace ProjetUnivers
           {
             InternalMessage("Display","Entering TargetWithSelection::onUpdate") ;
 
-            std::set<Kernel::Object*> selected(Kernel::Relation::getLinked<Model::Selection>(getObjectTo())) ;
+            std::set<Kernel::ObjectReference> selected(Kernel::Relation::getLinked<Model::Selection>(getObjectTo())) ;
 
             if (selected.size() == 1)
             {

@@ -24,6 +24,7 @@
 #include <model/model.h>
 #include <model/plays_in.h>
 #include <model/active.h>
+#include <model/has_ship.h>
 
 namespace ProjetUnivers
 {
@@ -67,13 +68,13 @@ namespace ProjetUnivers
 
     void FlyingGroup::removeShip(Kernel::Object* ship)
     {
-      m_ships.erase(ship) ;
+      Kernel::UnLink<HasShip>(getObject(),ship) ;
       notify() ;
     }
 
     void FlyingGroup::addShip(Kernel::Object* ship)
     {
-      m_ships.insert(ship) ;
+      Kernel::Link<HasShip>(getObject(),ship) ;
       notify() ;
     }
 
@@ -97,8 +98,8 @@ namespace ProjetUnivers
     {
       // @todo : this kind of query exist(IsRelated(Inverse(PlaysIn),HasTrait(Active))) could be
       // managed by kernel ?
-      std::set<Kernel::Object*> players(Kernel::Relation::getLinked<Kernel::Inverse<PlaysIn> >(getObject())) ;
-      for (std::set<Kernel::Object*>::iterator player = players.begin() ; player != players.end() ; ++player)
+      std::set<Kernel::ObjectReference> players(Kernel::Relation::getLinked<Kernel::Inverse<PlaysIn> >(getObject())) ;
+      for (std::set<Kernel::ObjectReference>::iterator player = players.begin() ; player != players.end() ; ++player)
       {
         if ((*player)->getTrait<Active>())
           return true ;
@@ -113,7 +114,7 @@ namespace ProjetUnivers
 
     unsigned int FlyingGroup::getNumberOfShips() const
     {
-      return m_ships.size() ;
+      return Kernel::Relation::getLinked<HasShip>(getObject()).size() ;
     }
 
     const unsigned int& FlyingGroup::getNumberOfSpawn() const
@@ -123,8 +124,9 @@ namespace ProjetUnivers
 
     Kernel::Object* FlyingGroup::getAIShip() const
     {
-      for(std::set<Kernel::ObjectReference>::const_iterator ship = m_ships.begin() ;
-          ship != m_ships.end() ;
+      std::set<Kernel::ObjectReference> ships(Kernel::Relation::getLinked<HasShip>(getObject())) ;
+      for(std::set<Kernel::ObjectReference>::const_iterator ship = ships.begin() ;
+          ship != ships.end() ;
           ++ship)
       {
         if (!(*ship)->getChildren<AutonomousCharacter>().empty())
@@ -137,7 +139,7 @@ namespace ProjetUnivers
 
     std::set<Kernel::ObjectReference> FlyingGroup::getShips() const
     {
-      return m_ships ;
+      return Kernel::Relation::getLinked<HasShip>(getObject()) ;
     }
 
   }

@@ -85,6 +85,7 @@ namespace ProjetUnivers
       /// Get an AI piloted ship.
       Kernel::Object* getAIShip() const ;
       
+      /// Access to all current ships of group
       std::set<Kernel::ObjectReference> getShips() const ;
       
     private:
@@ -111,9 +112,6 @@ namespace ProjetUnivers
       
       /// Number of times the group is created (at least one)
       unsigned int m_number_of_spawn ;
-
-      /// Actual ships in the group
-      std::set<Kernel::ObjectReference> m_ships ; 
       
     };
 

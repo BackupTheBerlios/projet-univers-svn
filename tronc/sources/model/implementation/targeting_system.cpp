@@ -304,7 +304,7 @@ namespace ProjetUnivers
 
     Kernel::Object* TargetingSystem::getComputer() const
     {
-      std::set<Kernel::Object*> computers(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
+      std::set<Kernel::ObjectReference> computers(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
 
       if (computers.size() != 1)
         return NULL ;

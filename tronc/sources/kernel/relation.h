@@ -68,7 +68,7 @@ namespace ProjetUnivers
 
       /// Returns the linked objects of @c object through @c _Relation.
       template <class _Relation>
-      static std::set<Object*> getLinked(Object* object) ;
+      static std::set<ObjectReference> getLinked(Object* object) ;
 
       /// Returns the linked object of @c object through @c _Relation.
       /*!
@@ -102,13 +102,13 @@ namespace ProjetUnivers
       bool operator <(const Relation&) const ;
 
       /// Returns the linked objects of @c object through @c relation.
-      static std::set<Object*> _getLinked(const TypeIdentifier& relation,Object* object) ;
+      static std::set<ObjectReference> _getLinked(const TypeIdentifier& relation,Object* object) ;
 
       /// Returns the linked objects from @c object through any relation.
-      static std::set<Object*> _getLinked(Object* object) ;
+      static std::set<ObjectReference> _getLinked(Object* object) ;
 
       /// Returns the linked objects to @c object through any relation.
-      static std::set<Object*> _getInversedLinked(Object* object) ;
+      static std::set<ObjectReference> _getInversedLinked(Object* object) ;
 
       /// True iff @c object1 @c _Relation @c object2.
       static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;

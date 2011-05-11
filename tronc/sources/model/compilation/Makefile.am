@@ -47,6 +47,7 @@ guidance_controler.reflect.cpp \
 guidance_system.reflect.cpp \
 has_component.reflect.cpp \
 has_in_line_of_sight.reflect.cpp \
+has_ship.reflect.cpp \
 head_up_display.reflect.cpp \
 hit.reflect.cpp \
 ideal_target.reflect.cpp \

@@ -20,7 +20,11 @@
  ***************************************************************************/
 #pragma once
 
+#include <map>
 #include <ostream>
+#include <set>
+#include <vector>
+#include <list>
 #include <OgreVector3.h>
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
@@ -159,6 +163,45 @@ namespace ProjetUnivers
         private:
 
           std::set<int> m_value ;
+        };
+
+        /// A testing trait
+        class VectorTrait : public Trait
+        {
+        public:
+
+          void setValue(const std::vector<int>&) ;
+          const std::vector<int>& getValue() const ;
+
+        private:
+
+          std::vector<int> m_value ;
+        };
+
+        /// A testing trait
+        class ListTrait : public Trait
+        {
+        public:
+
+          void setValue(const std::list<int>&) ;
+          const std::list<int>& getValue() const ;
+
+        private:
+
+          std::list<int> m_value ;
+        };
+
+        /// A testing trait
+        class MapTrait : public Trait
+        {
+        public:
+
+          void setValue(const std::map<int,float>&) ;
+          const std::map<int,float>& getValue() const ;
+
+        private:
+
+          std::map<int,float> m_value ;
         };
 
       }

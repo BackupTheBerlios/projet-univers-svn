@@ -146,24 +146,24 @@ namespace ProjetUnivers
       return m_object_to ;
     }
 
-    std::set<Object*> Relation::_getLinked(const TypeIdentifier& relation,Object* object)
+    std::set<ObjectReference> Relation::_getLinked(const TypeIdentifier& relation,Object* object)
     {
       return object->getModel()->getRelations(relation,object) ;
     }
 
-    std::set<Object*> Relation::_getLinked(Object* object)
+    std::set<ObjectReference> Relation::_getLinked(Object* object)
     {
       return object->getModel()->getRelations(object) ;
     }
 
-    std::set<Object*> Relation::_getInversedLinked(Object* object)
+    std::set<ObjectReference> Relation::_getInversedLinked(Object* object)
     {
       return object->getModel()->getInverseRelations(object) ;
     }
 
     bool Relation::_areLinked(const TypeIdentifier& relation,Object* object1,Object* object2)
     {
-      std::set<Object*> linked = object1->getModel()->getRelations(relation,object1) ;
+      std::set<ObjectReference> linked = object1->getModel()->getRelations(relation,object1) ;
       return linked.find(object2) != linked.end() ;
     }
 
