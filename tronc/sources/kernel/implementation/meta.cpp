@@ -168,6 +168,9 @@ namespace ProjetUnivers
 
     void TypeIdentifier::StaticStorage::addInheritance(const TypeIdentifier& inheriting,const TypeIdentifier& inherited)
     {
+      if (inheriting == TypeIdentifier() || inherited == TypeIdentifier())
+        return ;
+
       // recurse for transitivity of inheritance
       for(std::set<TypeIdentifier>::iterator type = m_sub_types[inheriting].begin() ;
           type != m_sub_types[inheriting].end() ; ++type)
