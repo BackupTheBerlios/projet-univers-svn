@@ -218,7 +218,8 @@ test_performance_kernel_LDFLAGS = $(COVERAGE_LDFLAGS) $(CPPUNIT_LIBS)
 test_performance_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 clean-local: gcov-clean
-
+	rm -f *.reflect.cpp
+	
 gcov-clean:
 	find $(SOURCES)/kernel -name "*.gcda" -o -name "*.gcov" -o -name "*.gcno" | xargs -r rm
 

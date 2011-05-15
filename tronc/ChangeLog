@@ -1828,6 +1828,9 @@
 
 2011-05-12
 - correction of a bug under windows
+
+2011-05-15
+- repair fresh build
     
 in commit
 --------
@@ -1840,9 +1843,11 @@ in progress
 @todo
 -----
 
+- try to simplify continuous integration, use virtualbox vm (debian)
+gccxml requires g++-4.2 on linux but it is not specified in configure...
+
 #5146 Create base network system : rationalisation of model regarding network 
 - better use of relation, the ships of a flying group
-
 - remove of Kernel::Model in Computer, change ComputerData ? needed ?
 - change HeadUpDisplay
 

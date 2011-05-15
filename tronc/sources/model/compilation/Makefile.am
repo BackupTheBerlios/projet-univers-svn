@@ -210,7 +210,7 @@ libmodel_la_DEPENDENCIES = ../../kernel/compilation/libkernel.la
 all-local:ressources.cfg
 
 clean-local:
-	rm *.reflect.cpp
+	rm -f *.reflect.cpp
 
 # generates a correct ressources.cfg from main template
 ressources.cfg:../../ressources.cfg.in
