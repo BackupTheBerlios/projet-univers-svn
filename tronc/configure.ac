@@ -153,6 +153,11 @@ PKG_CHECK_MODULES(tclap, [tclap >= 1])
 AC_SUBST(tclap_LIBS)
 AC_SUBST(tclap_CFLAGS)
 
+
+# we use openGl on all platform for continuous integration
+AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_GL")
+AC_SUBST(OGRE_USED_RENDER_SYSTEM,"OpenGL Rendering Subsystem")
+
 ## platform dependent configuration
 # ogre plugin configuration 
 # generates plugin.cfg and ogre.cfg for tests
@@ -166,8 +171,6 @@ if test "x$build_os" = xmingw32; then
   # we must transform the cygwin path to a windows path with escaped backslash
   AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path 1`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"dll")
-  AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_Direct3D9")
-  AC_SUBST(OGRE_USED_RENDER_SYSTEM,"Direct3D9 Rendering Subsystem")
 
   # on Windows platform, ogre dlls are inside the release
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,".")
@@ -187,8 +190,6 @@ elif test "x$build_os" = xlinux-gnu; then
   # path for ogre plugins 
   AC_SUBST(OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"so")
-  AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_GL")
-  AC_SUBST(OGRE_USED_RENDER_SYSTEM,"OpenGL Rendering Subsystem")
 
   # on Linux platform, ogre so are globals 
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
