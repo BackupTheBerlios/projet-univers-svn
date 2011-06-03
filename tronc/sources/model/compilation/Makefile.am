@@ -6,8 +6,8 @@ SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
-%.reflect.cpp : ../%.h
-	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
+%.reflect.cpp : ../%.h reflex_selection.xml
+	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ -s reflex_selection.xml --comments -I$(SOURCES) $(PU_CFLAGS) ;
 
 # the list of reflection files we need
 # add here one entry per model class

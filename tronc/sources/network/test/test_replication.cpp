@@ -145,6 +145,37 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,o1_client->getChildren().size()) ;
       }
 
+      void TestReplication::createSubObjectOnNonEmptyModel()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+        client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        o1->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,o1_client->getChildren().size()) ;
+      }
+
       void TestReplication::destroyObject()
       {
         std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
@@ -345,7 +376,57 @@ namespace ProjetUnivers
         server_model->update(0.1) ;
         client_model->update(0.1) ;
 
-        // @todo
+        // @todo : need to remove model controler...
+      }
+
+      void TestReplication::createObjectInClientDoesNotCreateObjectInServer()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = client->createObject() ;
+
+        client_model->update(0.1) ;
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // no object has been replicated
+        CPPUNIT_ASSERT(server->getChildren().empty()) ;
+      }
+
+      void TestReplication::createObjectWithSeveralClients()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model1(new Kernel::Model()) ;
+        client_model1->init() ;
+        Kernel::Object* client1 = client_model1->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model2(new Kernel::Model()) ;
+        client_model2->init() ;
+        Kernel::Object* client2 = client_model2->createObject() ;
+
+        connect(server,client1) ;
+        connect(server,client2) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model1->update(0.1) ;
+        client_model2->update(0.1) ;
+
+        // a sub object has been replicated for both clients
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client1->getChildren().size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client2->getChildren().size()) ;
       }
 
     }

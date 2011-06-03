@@ -40,6 +40,8 @@ namespace ProjetUnivers
 
       TextSerialiser(ObjectMapper* mapper = NULL) ;
 
+      void displaySupport(const Reflex::Type&) const ;
+
       /// Transform a trait to a string
       virtual std::string serialiseTrait(const Trait&) ;
 
@@ -58,6 +60,15 @@ namespace ProjetUnivers
       /// Deserialize a relation
       virtual void removeRelation(const std::string&,Model*) ;
 
+      /// Code for openning a class or list.
+      char open_group ;
+      /// Code for closing a class or list.
+      char close_group ;
+      /// Code for separating members of a class or list.
+      char separate ;
+      /// Code for separating member name from value.
+      char equal ;
+
     private:
 
       std::string serialiseObject(const Reflex::Type&,Reflex::Object object) ;
@@ -70,6 +81,9 @@ namespace ProjetUnivers
 
       /// Affect a serialised value to an object.
       void setValue(Reflex::Object object,const std::string& value,Model* model) ;
+
+      /// Move to correct ',' or ')' (in case of end)
+      std::string::size_type move(const std::string& text,const std::string::size_type& begin) const ;
 
       /// Parse key=value list.
       std::list<std::pair<std::string,std::string> > parseValues(const std::string&) const ;

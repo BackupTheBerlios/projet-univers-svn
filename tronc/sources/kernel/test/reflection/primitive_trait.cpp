@@ -154,6 +154,16 @@ namespace ProjetUnivers
           return m_value ;
         }
 
+        void DegreeTrait::setValue(const ::Ogre::Degree& value)
+        {
+          m_value = value ;
+        }
+
+        const ::Ogre::Degree& DegreeTrait::getValue() const
+        {
+          return m_value ;
+        }
+
       }
     }
   }

@@ -30,6 +30,9 @@ namespace ProjetUnivers
   {
 
     /// Indicate that the object is a network client.
+    /*!
+    @see Model::Connecting, Model::Connected, Model::Server
+    */
     class Client : public Kernel::Trait
     {
     public:

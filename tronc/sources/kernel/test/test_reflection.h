@@ -64,6 +64,8 @@ namespace ProjetUnivers
         void deserialisationOfList() ;
         void serialisationOfMap() ;
         void deserialisationOfMap() ;
+        void serialisationOfOgreDegree() ;
+        void deserialisationOfOgreDegree() ;
 
 
       // @}
@@ -98,6 +100,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(deserialisationOfList) ;
         CPPUNIT_TEST(serialisationOfMap) ;
         CPPUNIT_TEST(deserialisationOfMap) ;
+        CPPUNIT_TEST(serialisationOfOgreDegree) ;
+        CPPUNIT_TEST(deserialisationOfOgreDegree) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

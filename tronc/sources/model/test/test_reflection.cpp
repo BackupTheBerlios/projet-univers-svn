@@ -28,6 +28,7 @@
 #include <model/oriented.h>
 
 #include <model/test/test_reflection.h>
+#include <kernel/text_serialiser.h>
 
 
 namespace ProjetUnivers
@@ -67,7 +68,14 @@ namespace ProjetUnivers
         Reflex::Type trait_type(Reflex::Type::ByName("ProjetUnivers::Kernel::Trait")) ;
         Reflex::Type relation_type(Reflex::Type::ByName("ProjetUnivers::Kernel::Relation")) ;
 
+        Reflex::Type duration(Reflex::Type::ByName("ProjetUnivers::Model::Duration")) ;
+
+        CPPUNIT_ASSERT(duration.IsClass()) ;
+        CPPUNIT_ASSERT(duration.SizeOf() != 0) ;
+
         bool has_sub_types = false ;
+
+        Kernel::TextSerialiser serialiser ;
 
         // all types
         for(Reflex::Type_Iterator type = Reflex::Type::Type_Begin() ;
@@ -76,16 +84,12 @@ namespace ProjetUnivers
         {
           if (type->IsClass())
           {
+
             Reflex::Type Class = *type ;
             // only primitive traits or primitive relations
             if (Class.HasBase(trait_type) || Class.HasBase(relation_type))
             {
-              std::cout << Class.Name(Reflex::SCOPED) << std::endl ;
-
-              for(Reflex::Member_Iterator member = Class.Member_Begin() ; member != Class.Member_End() ; ++member)
-              {
-                std::cout << member->Name(Reflex::SCOPED) << std::endl ;
-              }
+              serialiser.displaySupport(*type) ;
 
               has_sub_types = true ;
             }

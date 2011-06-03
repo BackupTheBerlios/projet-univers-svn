@@ -40,12 +40,15 @@ namespace ProjetUnivers
         void createObject() ;
         void addTrait() ;
         void createSubObject() ;
+        void createSubObjectOnNonEmptyModel() ;
         void destroyObject() ;
         void destroyTrait() ;
         void updateTrait() ;
         void addRelation() ;
         void removeRelation() ;
         void replicationOfCustomMission() ;
+        void createObjectInClientDoesNotCreateObjectInServer() ;
+        void createObjectWithSeveralClients() ;
 
         /*
         @todo
@@ -64,12 +67,15 @@ namespace ProjetUnivers
         CPPUNIT_TEST(createObject) ;
         CPPUNIT_TEST(addTrait) ;
         CPPUNIT_TEST(createSubObject) ;
+        CPPUNIT_TEST(createSubObjectOnNonEmptyModel) ;
         CPPUNIT_TEST(destroyObject) ;
         CPPUNIT_TEST(destroyTrait) ;
         CPPUNIT_TEST(updateTrait) ;
         CPPUNIT_TEST(addRelation) ;
         CPPUNIT_TEST(removeRelation) ;
         CPPUNIT_TEST(replicationOfCustomMission) ;
+        CPPUNIT_TEST(createObjectInClientDoesNotCreateObjectInServer) ;
+        CPPUNIT_TEST(createObjectWithSeveralClients) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

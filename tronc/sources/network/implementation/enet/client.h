@@ -40,6 +40,7 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
+      /// Local deduced trait
       class Client : public Kernel::DeducedTrait
       {};
 
@@ -62,7 +63,6 @@ namespace ProjetUnivers
 
           /// Get a replicated object by it's network identifier.
           Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
-
 
         private:
 

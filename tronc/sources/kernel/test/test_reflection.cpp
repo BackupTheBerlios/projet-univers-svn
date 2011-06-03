@@ -525,6 +525,34 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(10.0f,value.find(-1)->second) ;
       }
 
+      void TestReflection::serialisationOfOgreDegree()
+      {
+        Reflection::DegreeTrait trait ;
+        trait.setValue(::Ogre::Degree(90)) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::DegreeTrait(m_value=90)"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfOgreDegree()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::DegreeTrait(m_value=90)") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::DegreeTrait* primitive = dynamic_cast<Reflection::DegreeTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getValue() == ::Ogre::Degree(90)) ;
+      }
 
     }
   }

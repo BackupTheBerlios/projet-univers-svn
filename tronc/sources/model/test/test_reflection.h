@@ -48,7 +48,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST_SUITE(TestReflection) ;
 
         CPPUNIT_TEST(spike) ;
-        //CPPUNIT_TEST(primitiveTraits) ;
+        CPPUNIT_TEST(primitiveTraits) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

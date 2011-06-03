@@ -170,18 +170,6 @@ template <class T> struct CollType
 
 
    static void*
-   construct(void* env) {
-      PEnv_t e = PEnv_t(env);
-      PValue_t m = PValue_t(e->fStart);
-
-      for (size_t i = 0; i < e->fSize; ++i, ++m) {
-         ::new (m) Value_t();
-      }
-      return 0;
-   }
-
-
-   static void*
    collect(void* env) {
       PEnv_t e = PEnv_t(env);
       PCont_t c = PCont_t(e->fObject);
@@ -397,7 +385,6 @@ template <typename T> struct CFTGenerator {
       p->clear_func = T::clear;
       p->resize_func = T::resize;
       p->collect_func = T::collect;
-      p->construct_func = T::construct;
       p->destruct_func = T::destruct;
       p->feed_func = T::feed;
       p->create_env = T::Env_t::Create;

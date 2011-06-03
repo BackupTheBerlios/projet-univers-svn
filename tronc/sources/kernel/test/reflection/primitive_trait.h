@@ -204,6 +204,20 @@ namespace ProjetUnivers
           std::map<int,float> m_value ;
         };
 
+
+        /// A testing trait
+        class DegreeTrait : public Trait
+        {
+        public:
+
+          void setValue(const ::Ogre::Degree&) ;
+          const ::Ogre::Degree& getValue() const ;
+
+        private:
+
+          ::Ogre::Degree m_value ;
+        };
+
       }
     }
   }

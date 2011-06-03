@@ -1,0 +1,61 @@
+<lcgdict>
+  <selection>
+
+    <!-- We include collections --> 
+    <class pattern="std::set<*>"/>
+    <class pattern="std::set<*>"/>
+    <class pattern="std::vector<*>"/>
+    <class pattern="std::list<*>"/>
+    <class pattern="std::map<*>"/>
+    <class pattern="std::pair<*>"/>
+
+    <class pattern="ProjetUnivers::Model::*"/>
+    <class pattern="ProjetUnivers::Kernel::Test::*"/>
+  </selection>
+  
+  <exclusion> 
+    <!-- We remove some useless elements inherited from kernl -->
+    <class name="ProjetUnivers::Kernel::Trait"/>
+    <class name="ProjetUnivers::Kernel::Relation"/>
+    <class name="ProjetUnivers::Kernel::BaseTraitView"/>
+    <class name="std::set<ProjetUnivers::Kernel::Relation>"/>
+    <class name="std::set<rlog::RLogNode*>"/>
+    <class name="std::set<std::pair<ProjetUnivers::Kernel::TypeIdentifier,ProjetUnivers::Kernel::TypeIdentifier> >"/>
+
+    <class name="std::set<ProjetUnivers::Kernel::Notifiable*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::Object*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::TypeIdentifier>"/>
+    <class name="std::set<ProjetUnivers::Kernel::BaseRelationView*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::ViewPoint*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::ControlerSet*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::ObjectReference*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::Trait*>"/>
+    <class name="std::set<ProjetUnivers::Kernel::Relation*>"/>
+    <class name="std::pair<ProjetUnivers::Kernel::ControlerSet* const,ProjetUnivers::Kernel::BaseControler*>"/>
+    <class name="std::pair<ProjetUnivers::Kernel::ViewPoint* const,ProjetUnivers::Kernel::BaseTraitView*>"/>
+    <class name="std::map<int,ProjetUnivers::Kernel::Object*>"/>
+    <class name="std::list<rlog::RLogNode*>"/>
+
+    <class pattern="std::map<ProjetUnivers::Kernel::TypeIdentifier,*>"/>
+    <class pattern="std::map<*ProjetUnivers::Kernel::Formula*>"/>
+    <class pattern="std::set<ProjetUnivers::Kernel::*Formula*>"/>
+    <class pattern="std::map<ProjetUnivers::Kernel::ObjectPair*>"/>
+    <class pattern="std::map<*ProjetUnivers::Kernel::TypeIdentifier*>"/>
+    <class pattern="std::map<*rlog::RLogChannel*>"/>
+    <class pattern="std::map<const std::type_info*>"/>
+    <class pattern="ProjetUnivers::Kernel::Implementation::*"/>
+    
+    <class pattern="std::_*"/>
+    <class pattern="*_Rb_tree<*>"/>
+    <class pattern="*_Rb_tree_const_iterator<*>"/>
+    <class pattern="*boost::*"/>
+    <class pattern="std::list<ProjetUnivers::Kernel::Implementation::*>"/>
+    <class pattern="std::map<ProjetUnivers::Kernel::Relation*>"/>
+    <class pattern="std::pair<*ProjetUnivers::Kernel::Relation*>"/>
+
+    <!-- We exclude some elements from Ogre framework -->    
+    <class pattern="*Ogre::*"/>
+    <class pattern="*__gnu_cxx::*"/>
+  </exclusion> 
+</lcgdict>
+          

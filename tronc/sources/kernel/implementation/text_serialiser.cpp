@@ -35,7 +35,12 @@ namespace ProjetUnivers
 
     TextSerialiser::TextSerialiser(ObjectMapper* mapper)
     : Serialiser(mapper)
-    {}
+    {
+      open_group = '(' ;
+      close_group = ')' ;
+      separate = ',' ;
+      equal = '=' ;
+    }
 
     bool finished(Reflex::Object iterator,Reflex::Object end,Reflex::Member operator_equal)
     {
@@ -47,6 +52,7 @@ namespace ProjetUnivers
 
       return Reflex::Object_Cast<bool>(finished) ;
     }
+
 
     /*
     @todo use other separators :
@@ -92,6 +98,10 @@ namespace ProjetUnivers
       {
         return ::Ogre::StringConverter::toString(Reflex::Object_Cast< ::Ogre::Quaternion>(value)) ;
       }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("Ogre::Degree")))
+      {
+        return ::Ogre::StringConverter::toString(Reflex::Object_Cast< ::Ogre::Degree>(value)) ;
+      }
       else if (value_type.IsTemplateInstance())
       {
         const Reflex::ClassTemplateInstance* class_template = dynamic_cast<const Reflex::ClassTemplateInstance*>(value_type.ToTypeBase()) ;
@@ -107,7 +117,7 @@ namespace ProjetUnivers
         if (template_name == "std::set" || template_name == "std::vector"  || template_name == "std::list")
         {
           std::string result(template_name) ;
-          result += "(" ;
+          result += open_group ;
 
           Reflex::Type collection_value_type = Reflex::Type::ByName(value_type.Name(Reflex::SCOPED)+"::value_type").FinalType() ;
 
@@ -123,7 +133,7 @@ namespace ProjetUnivers
           for (void* element = collFuncTable->first_func(env) ; element ; env->fIdx = 1, element = collFuncTable->next_func(env))
           {
             result += separator ;
-            separator = "," ;
+            separator = separate ;
             Reflex::Object element_value(collection_value_type,element) ;
             result += valueToString(element_value) ;
           }
@@ -131,13 +141,13 @@ namespace ProjetUnivers
           delete collFuncTable ;
           delete env ;
 
-          result += ")" ;
+          result += close_group ;
           return result ;
         }
         else if (template_name == "std::map")
         {
           std::string result(template_name) ;
-          result += "(" ;
+          result += open_group ;
 
           Reflex::Type pair_type = Reflex::Type::ByName(value_type.Name(Reflex::SCOPED)+"::value_type").FinalType() ;
 
@@ -156,7 +166,7 @@ namespace ProjetUnivers
           for (void* element = collFuncTable->first_func(env) ; element ; env->fIdx = 1, element = collFuncTable->next_func(env))
           {
             result += separator ;
-            separator = "," ;
+            separator = separate ;
             Reflex::Object element_value(pair_type,element) ;
             Reflex::Object first_value(key_type,element_value.Address()) ;
 
@@ -171,7 +181,7 @@ namespace ProjetUnivers
           delete collFuncTable ;
           delete env ;
 
-          result += ")" ;
+          result += close_group ;
           return result ;
         }
         else
@@ -232,6 +242,11 @@ namespace ProjetUnivers
       {
         ::Ogre::Quaternion real_value = ::Ogre::StringConverter::parseQuaternion(value) ;
         *(::Ogre::Quaternion*)target_value.Address() = real_value ;
+      }
+      else if (value_type == Reflex::Type::ByName("Ogre::Degree"))
+      {
+        ::Ogre::Degree real_value(::Ogre::StringConverter::parseReal(value)) ;
+        *(::Ogre::Degree*)target_value.Address() = real_value ;
       }
       else if (value_type.IsTemplateInstance())
       {
@@ -343,10 +358,100 @@ namespace ProjetUnivers
       }
     }
 
+    bool isSupported(const Reflex::Type& value_type)
+    {
+      if (value_type == Reflex::Type::ByName("std::string"))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("float")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("int")) || value_type.IsEnum())
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type(Reflex::Type::ByName("int"),Reflex::REFERENCE)))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("unsigned int")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("ProjetUnivers::Kernel::ObjectReference")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("bool")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("Ogre::Vector3")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("Ogre::Quaternion")))
+      {
+        return true ;
+      }
+      else if (value_type.IsEquivalentTo(Reflex::Type::ByName("Ogre::Degree")))
+      {
+        return true ;
+      }
+      else if (value_type.IsTemplateInstance())
+      {
+        const Reflex::ClassTemplateInstance* class_template = dynamic_cast<const Reflex::ClassTemplateInstance*>(value_type.ToTypeBase()) ;
+
+        if (!class_template)
+        {
+          return false ;
+        }
+
+        std::string template_name(class_template->TemplateFamily().Name(Reflex::SCOPED)) ;
+
+        if (template_name == "std::set" || template_name == "std::vector"  || template_name == "std::list")
+        {
+          return true ;
+        }
+        else if (template_name == "std::map")
+        {
+          return true ;
+        }
+        return false ;
+      }
+      else if (value_type.IsClass() &&
+               value_type.SizeOf() != 0 && // not undefined
+               value_type.Name().find('<') == std::string::npos) // not a hidden template
+      {
+        return true ;
+      }
+      return false ;
+    }
+
+    void TextSerialiser::displaySupport(const Reflex::Type& type) const
+    {
+      bool displayed_name = false ;
+      for(Reflex::Member_Iterator member = type.Member_Begin() ; member != type.Member_End() ; ++member)
+      {
+        if (member->IsDataMember() && !isSupported(member->TypeOf()))
+        {
+          if (!displayed_name)
+          {
+            std::cout << std::endl << "type " << type.Name(Reflex::SCOPED) << std::endl ;
+            displayed_name = true ;
+          }
+
+          std::cout << "  member " << member->Name() << " " << member->TypeOf().Name(Reflex::SCOPED) << std::endl ;
+        }
+      }
+    }
+
     std::string TextSerialiser::serialiseObject(const Reflex::Type& type,Reflex::Object object)
     {
       std::string result(type.Name(Reflex::SCOPED)) ;
-      result += "(" ;
+      result += open_group ;
 
       bool has_member = false ;
 
@@ -355,16 +460,16 @@ namespace ProjetUnivers
         if (member->IsDataMember())
         {
           if (has_member)
-            result += "," ;
+            result += separate ;
           else
             has_member = true ;
           result += member->Name() ;
-          result += "=" ;
+          result += equal ;
           result += valueToString(member->Get(object)) ;
         }
       }
 
-      result += ")" ;
+      result += close_group ;
       return result ;
     }
 
@@ -375,7 +480,7 @@ namespace ProjetUnivers
       Reflex::Object object(type,const_cast<Trait*>(&trait)) ;
 
       std::string result(type.Name(Reflex::SCOPED)) ;
-      result += "(" ;
+      result += open_group ;
 
       bool has_member = false ;
 
@@ -384,23 +489,23 @@ namespace ProjetUnivers
         if (member->IsDataMember())
         {
           if (has_member)
-            result += "," ;
+            result += separate ;
           else
             has_member = true ;
           result += member->Name() ;
-          result += "=" ;
+          result += equal ;
           result += valueToString(member->Get(object)) ;
         }
       }
 
-      result += ")" ;
+      result += close_group ;
       return result ;
     }
 
     Trait* TextSerialiser::deserialiseTrait(const std::string& text,Model* model)
     {
       std::string trait_name ;
-      std::string::size_type position_of_parenthesis = text.find('(') ;
+      std::string::size_type position_of_parenthesis = text.find(open_group) ;
       if (position_of_parenthesis == std::string::npos)
         return NULL ;
 
@@ -421,7 +526,7 @@ namespace ProjetUnivers
     void TextSerialiser::deserialiseTrait(const std::string& text,Trait* trait)
     {
       std::string trait_name ;
-      std::string::size_type position_of_parenthesis = text.find('(') ;
+      std::string::size_type position_of_parenthesis = text.find(open_group) ;
       if (position_of_parenthesis == std::string::npos)
         return ;
 
@@ -457,13 +562,13 @@ namespace ProjetUnivers
     std::list<std::pair<std::string,std::string> > TextSerialiser::parseValues(const std::string& text) const
     {
       std::list<std::pair<std::string,std::string> > result ;
-      std::string::size_type begin_member = text.find('(') ;
+      std::string::size_type begin_member = text.find(open_group) ;
       std::string::size_type end_member ;
       // fill members
       do
       {
         ++begin_member ;
-        end_member = text.find('=',begin_member) ;
+        end_member = text.find(equal,begin_member) ;
         if (end_member == std::string::npos)
           break ;
 
@@ -479,32 +584,31 @@ namespace ProjetUnivers
         {
           end_member_value = text.find_first_of(",)(",begin_member_value) ;
 
-          if (text[end_member_value] == '(')
+          if (text[end_member_value] == open_group)
           {
             ++number_of_openned_parenthesis ;
           }
-          else if (text[end_member_value] == ')')
+          else if (text[end_member_value] == close_group)
           {
             --number_of_openned_parenthesis ;
           }
 
           begin_member_value = end_member_value + 1 ;
         }
-        while (number_of_openned_parenthesis > 0 ||(number_of_openned_parenthesis == 0 && text[end_member_value] == ')')) ;
+        while (number_of_openned_parenthesis > 0 ||(number_of_openned_parenthesis == 0 && text[end_member_value] == close_group)) ;
 
         std::string member_value = text.substr(end_member+1,end_member_value-end_member-1) ;
 
         result.push_back(std::make_pair(member_name,member_value)) ;
 
-        begin_member = text.find(',',end_member_value) ;
+        begin_member = text.find(separate,end_member_value) ;
       }
       while (begin_member != std::string::npos) ;
 
       return result ;
     }
 
-    /// Move to correct ',' or ')' (in case of end)
-    std::string::size_type move(const std::string& text,const std::string::size_type& begin)
+    std::string::size_type TextSerialiser::move(const std::string& text,const std::string::size_type& begin) const
     {
       std::string::size_type begin_member = begin ;
       std::string::size_type end_member ;
@@ -515,17 +619,17 @@ namespace ProjetUnivers
         ++begin_member ;
         end_member = text.find_first_of(",)(",begin_member) ;
 
-        if (text[end_member] == '(')
+        if (text[end_member] == open_group)
         {
           ++number_of_openned_parenthesis ;
         }
-        else if (text[end_member] == ')')
+        else if (text[end_member] == close_group)
         {
           --number_of_openned_parenthesis ;
         }
         begin_member = end_member ;
       }
-      while (number_of_openned_parenthesis > 0 ||(number_of_openned_parenthesis == 0 && text[end_member] == ')')) ;
+      while (number_of_openned_parenthesis > 0 ||(number_of_openned_parenthesis == 0 && text[end_member] == close_group)) ;
 
       return end_member ;
     }
@@ -533,7 +637,7 @@ namespace ProjetUnivers
     std::list<std::string> TextSerialiser::parseListValues(const std::string& text) const
     {
       std::list<std::string> result ;
-      std::string::size_type begin_member = text.find('(') ;
+      std::string::size_type begin_member = text.find(open_group) ;
       std::string::size_type end_member ;
       do
       {
@@ -575,11 +679,11 @@ namespace ProjetUnivers
       std::string result("ProjetUnivers::") ;
       const TypeIdentifier& type = relation.getType() ;
       result += type.fullName() ;
-      result += "(" ;
+      result += open_group ;
       result += toString(m_mapper->getMappedIdentifier(relation.getObjectFrom())) ;
-      result += "," ;
+      result += separate ;
       result += toString(m_mapper->getMappedIdentifier(relation.getObjectTo())) ;
-      result += ")" ;
+      result += close_group ;
 
       return result ;
     }
@@ -587,14 +691,14 @@ namespace ProjetUnivers
     void TextSerialiser::addRelation(const std::string& text,Model* model)
     {
       std::string relation_name ;
-      std::string::size_type position_of_parenthesis = text.find('(') ;
+      std::string::size_type position_of_parenthesis = text.find(open_group) ;
       if (position_of_parenthesis == std::string::npos)
         return ;
 
       relation_name = text.substr(0,position_of_parenthesis) ;
       TypeIdentifier type(relation_name) ;
 
-      std::string::size_type position_of_column = text.find(',',position_of_parenthesis) ;
+      std::string::size_type position_of_column = text.find(separate,position_of_parenthesis) ;
 
       std::string identifier1 = text.substr(position_of_parenthesis+1,
                                             position_of_column-position_of_parenthesis-1) ;
@@ -612,14 +716,14 @@ namespace ProjetUnivers
     void TextSerialiser::removeRelation(const std::string& text,Model* model)
     {
       std::string relation_name ;
-      std::string::size_type position_of_parenthesis = text.find('(') ;
+      std::string::size_type position_of_parenthesis = text.find(open_group) ;
       if (position_of_parenthesis == std::string::npos)
         return ;
 
       relation_name = text.substr(0,position_of_parenthesis) ;
       TypeIdentifier type(relation_name) ;
 
-      std::string::size_type position_of_column = text.find(',',position_of_parenthesis) ;
+      std::string::size_type position_of_column = text.find(separate,position_of_parenthesis) ;
 
       std::string identifier1 = text.substr(position_of_parenthesis+1,
                                             position_of_column-position_of_parenthesis-1) ;
