@@ -14,20 +14,44 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RCP Perspective"
+            name="Perspective"
             class="editor.Perspective"
             id="editor.perspective">
       </perspective>
    </extension>
    <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="editor.Editor"
-            default="false"
-            icon="icons/alt_launcher.ico"
-            id="pu.editor"
-            name="pu.editor">
-      </editor>
+         point="org.eclipse.ui.views">
+      <view
+            name="View"
+            class="editor.View"
+            id="editor.view">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <view
+               standalone="true"
+               minimized="false"
+               relative="org.eclipse.ui.editorss"
+               relationship="left"
+               id="editor.view">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="File">
+            <command
+                  commandId="org.eclipse.ui.file.exit"
+                  label="Exit">
+            </command>
+         </menu>
+      </menuContribution>
    </extension>
 
 </plugin>
